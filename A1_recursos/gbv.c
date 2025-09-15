@@ -10,9 +10,11 @@ int gbv_create(const char *filename){
 }
 int gbv_open(Library *lib, const char *filename){
     if (!lib || !filename) return 1;
-    FILE *file = fopen ("filename", "rb");
-    file.
-    lib->docs
+    FILE *file = fopen (filename, "rb");
+    char buffer[BUFFER_SIZE];
+
+    fread (buffer, sizeof (char), BUFFER_SIZE, filename);
+    
 }
 int gbv_add(Library *lib, const char *archive, const char *docname);
 int gbv_remove(Library *lib, const char *docname);

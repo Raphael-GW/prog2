@@ -4,8 +4,9 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This is free software; see the source for copying conditions.
 # There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
+ 
 
-# Make data base, printed on Tue Sep 09 16:29:05 2025
+# Make data base, printed on Mon Sep 15 19:17:28 2025
 
 # Variables
 
@@ -72,7 +73,7 @@ ELECTRON_RUN_AS_NODE = 1
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_18308_FYYETCSNAHOXIQKO
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_13060_VQEZPXDSNEPPRYCP
 # environment
 COMPUTERNAME = RAPHAGW
 # environment
@@ -82,7 +83,7 @@ DRIVERDATA = C:\Windows\System32\Drivers\DriverData
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
-WT_SESSION = 100ec280-c8b9-43bb-b5af-ff787ebb16b5
+WT_SESSION = 2fc866f6-3829-4edc-b60d-8ae462c8fb8d
 # environment
 USERNAME = rapha
 # environment
@@ -90,7 +91,7 @@ PUBLIC = C:\Users\Public
 # environment
 VSCODE_CLI = 1
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\rapha\AppData\Roaming\Code\CachedData\360a4e4fd251bfce169a4ddf857c7d25d1ad40da
+VSCODE_CODE_CACHE_PATH = C:\Users\rapha\AppData\Roaming\Code\CachedData\6f17636121051a53c88d3e605c491d22af2ba755
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
@@ -132,7 +133,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 190 Stepping 0, GenuineIntel
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\f48552b0-1.103.1-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\f48552b0-1.103.2-main-sock
 # environment
 HOMEPATH = \Users\rapha
 # environment
@@ -147,8 +148,6 @@ MFLAGS = -Rrqp
 SYSTEMROOT = C:\WINDOWS
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
-# environment
-VSCODE_L10N_BUNDLE_LOCATION = 
 # automatic
 +F = $(notdir $+)
 # environment
@@ -186,30 +185,31 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-VSCODE_PID = 18308
+VSCODE_PID = 13060
 # environment
 USERDOMAIN_ROAMINGPROFILE = RAPHAGW
 # variable set hash-table stats:
-# Load=90/1024=9%, Rehash=0, Collisions=9/104=9%
+# Load=89/1024=9%, Rehash=0, Collisions=9/103=9%
 
 # Directories
 
 # C:\WINDOWS\System32\WindowsPowerShell\v1.0\ (key C:/WINDOWS/System32/WindowsPowerShell/v1.0/, mtime 1757157030): 29 files, no impossibilities.
 # C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, mtime 1757157030): 150 files, no impossibilities.
-# . (key c:/Users/rapha/Documents/prog2, mtime 1757446142): 7 files, no impossibilities.
+# . (key c:/Users/rapha/Documents/prog2, mtime 1757446370): 8 files, no impossibilities.
 # C:\Program Files\dotnet\ (key C:/Program Files/dotnet/, mtime 1746214553): 13 files, no impossibilities.
 # C:\WINDOWS\System32\OpenSSH\: could not be stat'd.
-# C:\WINDOWS (key C:/WINDOWS, mtime 1757369813): 109 files, no impossibilities.
+# C:\WINDOWS (key C:/WINDOWS, mtime 1757458319): 111 files, no impossibilities.
 # C:\ProgramData\Oracle\Java\javapath (key C:/ProgramData/Oracle/Java/javapath, mtime 1740574056): 5 files, no impossibilities.
-# C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/rapha/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1755454033): 5 files, no impossibilities.
+# C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/rapha/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1757446179): 5 files, no impossibilities.
 # C:\Program Files\Git\bin (key C:/Program Files/Git/bin, mtime 1744317022): 5 files, no impossibilities so far.
 # C:\Users\rapha\.dotnet\tools: could not be stat'd.
 # C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\ (key C:/Program Files (x86)/Microsoft Group Policy/Windows Server 2022 August 2021 Update/PolicyDefinitions/, mtime 1757171433): 238 files, no impossibilities.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1744317047): 13 files, no impossibilities.
 # C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 1757366508): 2972 files, no impossibilities.
-# C:\Users\rapha\AppData\Local\Microsoft\WindowsApps (key C:/Users/rapha/AppData/Local/Microsoft/WindowsApps, mtime 1757020167): 52 files, no impossibilities.
+# C:\Users\rapha\AppData\Local\Microsoft\Windows 
+Apps (key C:/Users/rapha/AppData/Local/Microsoft/WindowsApps, mtime 1757618924): 52 files, no impossibilities.
 
-# 3598 files, no impossibilities in 14 directories.
+# 3601 files, no impossibilities in 14 directories.
 
 # Implicit Rules
 
@@ -264,7 +264,7 @@ GNUmakefile:
 
 # No general (`VPATH' variable) search path.
 
-# Finished Make data base on Tue Sep 09 16:29:05 2025
+# Finished Make data base on Mon Sep 15 19:17:28 2025
 
  
 make.exe: *** No rule to make target `all'.  Stop.
