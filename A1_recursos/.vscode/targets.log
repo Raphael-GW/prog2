@@ -6,7 +6,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # PARTICULAR PURPOSE.
  
 
-# Make data base, printed on Tue Sep 16 18:00:26 2025
+# Make data base, printed on Thu Sep 18 14:39:29 2025
 
 # Variables
 
@@ -43,7 +43,8 @@ VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"pt-br","resolvedLanguage":
 # makefile (from `makefile', line 2)
 CFLAGS = -Wall -g
 # environment
-ONEDRIVE = C:\Users\rapha\OneDrive
+ONEDRIVE = C:\Users 
+\rapha\OneDrive
 # environment
 PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
 # makefile (from `makefile', line 1)
@@ -75,7 +76,7 @@ ELECTRON_RUN_AS_NODE = 1
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_22924_GXOUZNXSJJBGSLHZ
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_26248_VPSSFIIQXJVUFKWV
 # environment
 COMPUTERNAME = RAPHAGW
 # environment
@@ -85,7 +86,7 @@ DRIVERDATA = C:\Windows\System32\Drivers\DriverData
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
-WT_SESSION = f384dae7-a902-4092-9685-2341971627d6
+WT_SESSION = e9344b07-0bcc-42f5-9629-98635cd31616
 # environment
 USERNAME = rapha
 # environment
@@ -189,7 +190,7 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-VSCODE_PID = 22924
+VSCODE_PID = 26248
 # environment
 USERDOMAIN_ROAMINGPROFILE = RAPHAGW
 # variable set hash-table stats:
@@ -210,7 +211,7 @@ USERDOMAIN_ROAMINGPROFILE = RAPHAGW
 # C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\ (key C:/Program Files (x86)/Microsoft Group Policy/Windows Server 2022 August 2021 Update/PolicyDefinitions/, mtime 1757171433): 238 files, no impossibilities.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1744317047): 13 files, no impossibilities.
 # C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 1757366508): 2972 files, no impossibilities.
-# C:\Users\rapha\AppData\Local\Microsoft\WindowsApps (key C:/Users/rapha/AppData/Local/Microsoft/WindowsApps, mtime 1757618924): 52 files, no impossibilities.
+# C:\Users\rapha\AppData\Local\Microsoft\WindowsApps (key C:/Users/rapha/AppData/Local/Microsoft/WindowsApps, mtime 1758178801): 52 files, no impossibilities.
 
 # 3602 files, no impossibilities in 14 directories.
 
@@ -297,7 +298,8 @@ gbv.o: gbv.c gbv.h
 # automatic
 # | := 
 # automatic
-# < := gbv.c
+# <  
+:= gbv.c
 # automatic
 # ^ := gbv.c gbv.h
 # automatic
@@ -386,7 +388,7 @@ util.o: util.c util.h
 # Not a target:
 gbv.c:
 #  Implicit rule search has been done.
-#  Last modified 2025-09-15 19:54:57
+#  Last modified 2025-09-16 18:59:37
 #  File has been updated.
 #  Successfully updated.
 
@@ -398,6 +400,6 @@ gbv.c:
 
 # No general (`VPATH' variable) search path.
 
-# Finished Make data base on Tue Sep 16 18:00:26 2025
+# Finished Make data base on Thu Sep 18 14:39:29 2025
 
  
