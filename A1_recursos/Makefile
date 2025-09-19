@@ -18,3 +18,5 @@ util.o: util.c util.h
 clean:
 	rm -f *.o gbv
 
+valgrind: all
+	valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./gbv

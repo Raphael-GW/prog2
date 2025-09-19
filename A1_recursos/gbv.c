@@ -32,10 +32,14 @@ int gbv_open(Library *lib, const char *filename){
         if (gbv_create (filename) == 0){
             file = fopen (filename, "r+b");
         }
+        else{
+            perror ("Erro ao abrir o arquivo");
+            exit (1);
+        }
     }
 
-    struct bloco *b;
-    if (fread (b, sizeof (long), 1, file) != 1){
+    struct bloco *b = NULL;
+    if (fread (b, sizeof (struct bloco), 1, file) != 1){
         fclose (file);
         return 1;
     }
@@ -58,10 +62,27 @@ int gbv_open(Library *lib, const char *filename){
 int gbv_add(Library *lib, const char *archive, const char *docname){
     if (!lib || !archive || !docname) return 1;
 
+    FILE* f = fopen (archive, "r+b");
+    FILE* arq = fopen (docname, "w+b");
+    if (!f || !arq){
+        perror ("Erro ao abrir o arquivo (add)\n");
+        exit (1);
+    }
     
+    struct stat *info = NULL;
+    fset
+    if (lib->count < 1){
+        fwrite (arq, sizeof (FILE), 1, f);
+        stat (docname, info);
+        Document *doc = lib->docs;
+        doc->date = docname;
+
+    }
 }
 
-int gbv_remove(Library *lib, const char *docname);
+int gbv_remove(Library *lib, const char *docname){
+    if (!lib || !docname) return 1;
+}
 
 int gbv_list(const Library *lib){
     if (!lib) return 0;
@@ -76,4 +97,7 @@ int gbv_list(const Library *lib){
     }
 }
 
-int gbv_view(const Library *lib, const char *docname);
+int gbv_view(const Library *lib, const char *docname){
+    if (!lib || !docname) return 1;
+
+}
