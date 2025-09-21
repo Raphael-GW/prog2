@@ -13,7 +13,8 @@ struct bloco *cria_bloco (){
     if (!b) return NULL;
 
     b->num_arquivos = 0;
-    b->offset = 0;
+    b->offset = malloc (sizeof (long));
+    if (!b->offset) return NULL;
 
     return b;
 }

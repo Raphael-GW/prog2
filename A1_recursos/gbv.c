@@ -9,13 +9,13 @@ int gbv_create(const char *filename){
     if (!filename) return 1;
     
     FILE *file = fopen (filename, "w+b");
-    if (!file){
-        perror ("Erro ao abrir arquivo\n");
-        exit (1);
-    }
+    if (!file) return 1;
 
     struct bloco *b = cria_bloco ();
-    if (!b) return 1;
+    if (!b){
+        printf ("Erro ao criar bloco\n");
+        return 1;
+    }
 
     fwrite (b, sizeof (struct bloco), 1, file);
 
@@ -24,7 +24,10 @@ int gbv_create(const char *filename){
 }
 
 int gbv_open(Library *lib, const char *filename){
-    if (!filename || !lib) return 1;
+    if (!filename || !lib){
+        printf ("filename NULL\n");
+        return 1;
+    }
 
     FILE *file = fopen (filename, "r+b");
 
@@ -33,14 +36,15 @@ int gbv_open(Library *lib, const char *filename){
             file = fopen (filename, "r+b");
         }
         else{
-            perror ("Erro ao abrir o arquivo");
-            exit (1);
+            printf ("Erro ao criar lib\n");
+            return 1;
         }
     }
 
-    struct bloco *b = NULL;
+    struct bloco *b;
     if (fread (b, sizeof (struct bloco), 1, file) != 1){
         fclose (file);
+        printf ("Bloco não achado\n");
         return 1;
     }
 
@@ -62,22 +66,33 @@ int gbv_open(Library *lib, const char *filename){
 int gbv_add(Library *lib, const char *archive, const char *docname){
     if (!lib || !archive || !docname) return 1;
 
-    FILE* f = fopen (archive, "r+b");
-    FILE* arq = fopen (docname, "w+b");
-    if (!f || !arq){
+    FILE* file = fopen (archive, "r+b");
+    FILE* arq = fopen (docname, "r+b");
+    if (!file || !arq){
         perror ("Erro ao abrir o arquivo (add)\n");
-        exit (1);
+        return 1;
     }
     
-    struct stat *info = NULL;
-    fset
+    struct stat info;
+    stat (docname, &info);
+    char buffer[BUFFER_SIZE];
+    int n;
     if (lib->count < 1){
-        fwrite (arq, sizeof (FILE), 1, f);
-        stat (docname, info);
-        Document *doc = lib->docs;
-        doc->date = docname;
-
+        while ((n = fread(buffer, 1, BUFFER_SIZE, arq)) > 0) {
+        if (fwrite(buffer, 1, n, file) != n) {
+            perror("Erro na escrita");
+            fclose(file);
+            fclose(arq);
+            return 1;
+        }
+        }
+        strncpy(lib->docs[0].name, docname, MAX_NAME - 1);
+        lib->docs[0].name[MAX_NAME - 1] = '\0';
+        lib->docs[0].date = info.st_atime;
+        lib->docs[0].offset = ftell (arq);
+        lib->docs[0].size = info.st_size;
     }
+    
 }
 
 int gbv_remove(Library *lib, const char *docname){
@@ -87,14 +102,6 @@ int gbv_remove(Library *lib, const char *docname){
 int gbv_list(const Library *lib){
     if (!lib) return 0;
 
-    int offset = 0;
-
-    for (int i = 0; i < lib->count; i++){
-        struct stat *arq_stat;
-        stat (lib, arq_stat);
-        arq_stat->st_size;
-        
-    }
 }
 
 int gbv_view(const Library *lib, const char *docname){
