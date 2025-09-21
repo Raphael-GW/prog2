@@ -6,7 +6,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # PARTICULAR PURPOSE.
  
 
-# Make data base, printed on Sun Sep 21 14:05:54 2025
+# Make data base, printed on Sun Sep 21 17:44:23 2025
 
 # Variables
 
@@ -55,7 +55,8 @@ PROGRAMDATA = C:\ProgramData
 # environment
 VSCODE_CWD = C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code
 # environment
-PATH = C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\;C:\Users\rapha\AppData\Local\Microsoft\WindowsApps;C:\Users\rapha\.dotnet\tools;C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\msys64\ucrt64\bin;C:\MinGW\bin;
+PATH = C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOW 
+S\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\;C:\Users\rapha\AppData\Local\Microsoft\WindowsApps;C:\Users\rapha\.dotnet\tools;C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\msys64\ucrt64\bin;C:\MinGW\bin;
 # environment
 COMMONPROGRAMW6432 = C:\Program Files\Common Files
 # environment
@@ -73,7 +74,7 @@ ELECTRON_RUN_AS_NODE = 1
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_14008_ZOTRMCDYUTPFPAUP
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_17308_XEARKZTKKQCHDJKN
 # environment
 COMPUTERNAME = RAPHAGW
 # environment
@@ -124,8 +125,7 @@ EFC_18484_1592913036 = 1
 %D = $(patsubst %/,%,$(dir $%))
 # environment
 LOCALAPPDATA = C:\Users\rapha\AppData\Local
-#  
-environment
+# environment
 PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 # default
 MAKE_COMMAND := make.exe
@@ -159,8 +159,6 @@ SYSTEMROOT = C:\WINDOWS
 +F = $(notdir $+)
 # environment
 APPDATA = C:\Users\rapha\AppData\Roaming
-# environment
-__COMPAT_LAYER = DetectorsAppHealth
 # environment
 Path = C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\;C:\Users\rapha\AppData\Local\Microsoft\WindowsApps;C:\Users\rapha\.dotnet\tools;C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\msys64\ucrt64\bin;C:\MinGW\bin;
 # environment
@@ -196,17 +194,17 @@ PROCESSOR_LEVEL = 6
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 14008
+VSCODE_PID = 17308
 # environment
 USERDOMAIN_ROAMINGPROFILE = RAPHAGW
 # variable set hash-table stats:
-# Load=94/1024=9%, Rehash=0, Collisions=11/122=9%
+# Load=93/1024=9%, Rehash=0, Collisions=11/113=10%
 
 # Directories
 
 # C:\WINDOWS\System32\WindowsPowerShell\v1.0\ (key C:/WINDOWS/System32/WindowsPowerShell/v1.0/, mtime 1757157030): 29 files, no impossibilities.
 # C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, mtime 1757157030): 150 files, no impossibilities.
-# . (key c:/Users/rapha/Documents/prog2/A1_recursos, mtime 1758217173): 9 files, no impossibilities.
+# . (key c:/Users/rapha/Documents/prog2/A1_recursos, mtime 1758485884): 15 files, no impossibilities.
 # C:\Program Files\dotnet\ (key C:/Program Files/dotnet/, mtime 1746214553): 13 files, no impossibilities.
 # C:\WINDOWS\System32\OpenSSH\: could not be stat'd.
 # C:\WINDOWS (key C:/WINDOWS, mtime 1758328373): 111 files, no impossibilities.
@@ -219,7 +217,7 @@ USERDOMAIN_ROAMINGPROFILE = RAPHAGW
 # C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 1758317491): 2972 files, no impossibilities.
 # C:\Users\rapha\AppData\Local\Microsoft\WindowsApps (key C:/Users/rapha/AppData/Local/Microsoft/WindowsApps, mtime 1758321689): 52 files, no impossibilities.
 
-# 3602 files, no impossibilities in 14 directories.
+# 3608 files, no impossibilities in 14 directories.
 
 # Implicit Rules
 
@@ -250,12 +248,13 @@ gbv.h:
 # Not a target:
 main.c:
 #  Implicit rule search has been done.
-#  Last modified 2025-09-02 12:53:55
+#  Last modified 2025-09-21 14:06:05
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
-.DEFAULT:
+.DEFAUL 
+T:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -263,21 +262,21 @@ main.c:
 # Not a target:
 util.c:
 #  Implicit rule search has been done.
-#  Last modified 2025-09-18 14:39:33
+#  Last modified 2025-09-21 16:06:00
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2025-09-02 12:54:53
+#  Last modified 2025-09-21 14:06:05
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 util.h:
 #  Implicit rule search has been done.
-#  Last modified 2025-09-18 14:39:33
+#  Last modified 2025-09-21 16:06:01
 #  File has been updated.
 #  Successfully updated.
 
@@ -289,39 +288,37 @@ util.h:
 
 gbv.o: gbv.c gbv.h
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: `'
-#  File does not exist.
+#  Last modified 2025-09-21 17:18:03
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := gbv.o
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := gbv.c gbv.h
-# automatic
-# | := 
-# automatic
-# < := gbv.c
-# automatic
-# ^ := gbv.c gbv.h
-# automatic
-# ? := gbv.c gbv.h
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  Successfully updated.
 #  commands to execute (from `makefile', line 13):
 	$(CC) $(CFLAGS) -c gbv.c
 	
 
 gbv: main.o gbv.o util.o
 #  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
+# automatic
+# @ := gbv
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := main.o gbv.o util.o
+# automatic
+# | := 
+# automatic
+# < := main.o
+# automatic
+# ^ := main.o gbv.o util.o
+# automatic
+# ? := main.o gbv.o util.o
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
 #  commands to execute (from `makefile', line 7):
 	$(CC) $(CFLAGS) -o gbv main.o gbv.o util.o
 	
@@ -336,76 +333,45 @@ clean:
 
 main.o: main.c gbv.h
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: `'
-#  File does not exist.
+#  Last modified 2025-09-21 17:18:03
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := main.o
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := main.c gbv.h
-# automatic
-# | := 
-# automatic
-# < := main.c
-# automatic
-# ^ := main.c gbv.h
-# automatic
-# ? := main.c gbv.h
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  Successfully updated.
 #  commands to execute (from `makefile', line 10):
 	$(CC) $(CFLAGS) -c main.c
 	
 
 util.o: util.c util.h
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: `'
-#  File does not exist.
+#  Last modified 2025-09-21 17:18:03
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# au 
-tomatic
-# @ := util.o
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := util.c util.h
-# automatic
-# | := 
-# automatic
-# < := util.c
-# automatic
-# ^ := util.c util.h
-# automatic
-# ? := util.c util.h
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/12=8%
+#  Successfully updated.
 #  commands to execute (from `makefile', line 16):
 	$(CC) $(CFLAGS) -c util.c
+	
+
+valgrind: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `makefile', line 22):
+	valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./gbv
 	
 
 # Not a target:
 gbv.c:
 #  Implicit rule search has been done.
-#  Last modified 2025-09-18 16:58:11
+#  Last modified 2025-09-21 17:17:49
 #  File has been updated.
 #  Successfully updated.
 
 # files hash-table stats:
-# Load=14/1024=1%, Rehash=0, Collisions=0/39=0%
+# Load=15/1024=1%, Rehash=0, Collisions=0/39=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
 
 # No general (`VPATH' variable) search path.
 
-# Finished Make data base on Sun Sep 21 14:05:54 2025
+# Finished Make data base on Sun Sep 21 17:44:23 2025
 
  
