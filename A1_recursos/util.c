@@ -1,7 +1,7 @@
-#include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "util.h"
 
 void format_date(time_t t, char *buffer, int max) {
     struct tm *info = localtime(&t);
@@ -13,8 +13,7 @@ struct bloco *cria_bloco (){
     if (!b) return NULL;
 
     b->num_arquivos = 0;
-    b->offset = malloc (sizeof (long));
-    if (!b->offset) return NULL;
+    b->offset = 0;
 
     return b;
 }

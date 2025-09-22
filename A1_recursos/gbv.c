@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 #include "util.h"
 #include "gbv.h"
@@ -19,6 +20,15 @@ int gbv_create(const char *filename){
     
     fwrite (b, sizeof (struct bloco), 1, file);
 
+    Document *doc = malloc (sizeof (Document));
+    if (!doc){
+        printf ("Erro ao criar docs\n");
+        return 1;
+    }
+
+    fwrite (b)
+
+    free (b);
     fclose (file);
     return 0;
 }
@@ -43,14 +53,14 @@ int gbv_open(Library *lib, const char *filename){
         }
     }
 
-    struct bloco b;
-    if (fread(&b, sizeof(struct bloco), 1, file) != 1){
+    struct bloco *b = cria_bloco ();
+    if (fread(b, sizeof(struct bloco), 1, file) != 1){
         fclose(file);
         printf("Bloco não achado\n");
         return 1;
     }
 
-    lib->count = b.num_arquivos;
+    lib->count = b->num_arquivos;
     if (lib->count > 0){
         lib->docs = malloc(sizeof(Document) * lib->count);
         if (!lib->docs){
@@ -71,6 +81,7 @@ int gbv_open(Library *lib, const char *filename){
         lib->docs = NULL;
     }
 
+    free (b);
     fclose(file);
     return 0;
 }
@@ -82,18 +93,18 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     FILE* arq  = fopen(docname, "rb");
     if (!file || !arq){
         perror("Erro ao abrir o arquivo (add)");
-        if (file) fclose(file);
-        if (arq) fclose(arq);
         return 1;
     }
 
-    struct bloco b;
-    if (fread(&b, sizeof(struct bloco), 1, file) != 1){
+    // le o bloco
+    struct bloco *b = cria_bloco ();
+    if (fread(b, sizeof(struct bloco), 1, file) != 1){
         fclose(file);
         printf("Bloco não achado\n");
         return 1;
     }
 
+    // pega as informações do arquivo
     struct stat info;
     if (stat(docname, &info) != 0) {
         perror("stat");
@@ -102,28 +113,35 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
         return 1;
     }
 
+    // determina o offset de escrita
     long off;
     if (lib->count == 0){
         off = sizeof (struct bloco);
     }
     else{
-        off = b.offset[lib->count - 1];
+        off = b->offset;
+        for (int i = 0; i < lib->count; i++){
+            if (strcmp (lib->docs[i].name, docname) == 0){
+                off = lib->docs[i].offset;
+                b->num_arquivos--;
+            }
+        }
     }
-    
     fseek (file, off, SEEK_SET);
+
     // copia em blocos do arquivo fonte para o container
     char buffer[BUFFER_SIZE];
     size_t n;
     while ((n = fread(buffer, 1, BUFFER_SIZE, arq)) > 0) {
         if (fwrite(buffer, 1, n, file) != n) {
-            perror("Erro na escrita");
+            printf ("Erro na escrita");
             fclose(file);
             fclose(arq);
             return 1;
         }
     }
     if (ferror(arq)) {
-        perror("Erro ao ler arquivo de origem");
+        printf ("Erro ao ler arquivo de origem");
         fclose(file);
         fclose(arq);
         return 1;
@@ -134,7 +152,7 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     /* atualizar metadados em memória (lib) */
     Document *new_docs = realloc(lib->docs, sizeof(Document) * (lib->count + 1));
     if (!new_docs) {
-        perror("realloc");
+        printf ("realloc");
         fclose(file);
         fclose(arq);
         return 1;
@@ -146,20 +164,18 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     doc->name[MAX_NAME - 1] = '\0';
 
     doc->size   = (long) info.st_size;
-    doc->date   = info.st_mtime;   /* ou st_atime/st_ctime conforme necessidade */
+    doc->date   = info.st_mtime;
     doc->offset = off;
+    fwrite (doc, sizeof (Document), 1, file);
 
+    rewind (file);
+    b->num_arquivos++;
+    b->offset += doc->size;
+    fwrite (&b, sizeof (struct bloco), 1, file);
+    
 
-    lib->count++;
-
-    long *new_off = realloc (b.offset, sizeof (long) * lib->count);
-    if (!new_off){
-        printf ("Erro realloc new_off\n");
-        return 1;
-    }
-    b.offset = new_off;
-    b.offset[lib->count] = doc->offset + doc->size;
-
+    
+    free (b);
     fclose(file);
     fclose(arq);
     return 0;
