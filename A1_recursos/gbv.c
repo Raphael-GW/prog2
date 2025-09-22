@@ -16,7 +16,7 @@ int gbv_create(const char *filename){
         printf ("Erro ao criar bloco\n");
         return 1;
     }
-
+    
     fwrite (b, sizeof (struct bloco), 1, file);
 
     fclose (file);
@@ -25,7 +25,7 @@ int gbv_create(const char *filename){
 
 int gbv_open(Library *lib, const char *filename){
     if (!filename || !lib){
-        fprintf(stderr, "filename NULL\n");
+        printf("filename NULL\n");
         return 1;
     }
 
@@ -38,7 +38,7 @@ int gbv_open(Library *lib, const char *filename){
                 return 1;
             }
         } else {
-            fprintf(stderr, "Erro ao criar lib\n");
+            printf("Erro ao criar lib\n");
             return 1;
         }
     }
@@ -46,7 +46,7 @@ int gbv_open(Library *lib, const char *filename){
     struct bloco b;
     if (fread(&b, sizeof(struct bloco), 1, file) != 1){
         fclose(file);
-        fprintf(stderr, "Bloco não achado\n");
+        printf("Bloco não achado\n");
         return 1;
     }
 
@@ -59,7 +59,6 @@ int gbv_open(Library *lib, const char *filename){
             return 1;
         }
         if (fread(lib->docs, sizeof(Document), lib->count, file) != (size_t)lib->count) {
-            /* leitura parcial/erro */
             free(lib->docs);
             lib->docs = NULL;
             lib->count = 0;
@@ -67,7 +66,8 @@ int gbv_open(Library *lib, const char *filename){
             fprintf(stderr, "Erro ao ler diretório de documentos\n");
             return 1;
         }
-    } else {
+    } 
+    else {
         lib->docs = NULL;
     }
 
@@ -87,6 +87,13 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
         return 1;
     }
 
+    struct bloco b;
+    if (fread(&b, sizeof(struct bloco), 1, file) != 1){
+        fclose(file);
+        printf("Bloco não achado\n");
+        return 1;
+    }
+
     struct stat info;
     if (stat(docname, &info) != 0) {
         perror("stat");
@@ -95,22 +102,16 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
         return 1;
     }
 
-    /* posiciona no fim do container e pega offset inicial onde os bytes serão gravados */
-    if (fseek(file, 0, SEEK_END) != 0) {
-        perror("fseek container");
-        fclose(file);
-        fclose(arq);
-        return 1;
+    long off;
+    if (lib->count == 0){
+        off = sizeof (struct bloco);
     }
-    long offset = ftell(file);
-    if (offset == -1L) {
-        perror("ftell container");
-        fclose(file);
-        fclose(arq);
-        return 1;
+    else{
+        off = b.offset[lib->count - 1];
     }
-
-    /* copia em blocos do arquivo fonte para o container */
+    
+    fseek (file, off, SEEK_SET);
+    // copia em blocos do arquivo fonte para o container
     char buffer[BUFFER_SIZE];
     size_t n;
     while ((n = fread(buffer, 1, BUFFER_SIZE, arq)) > 0) {
@@ -128,6 +129,8 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
         return 1;
     }
 
+    
+
     /* atualizar metadados em memória (lib) */
     Document *new_docs = realloc(lib->docs, sizeof(Document) * (lib->count + 1));
     if (!new_docs) {
@@ -137,21 +140,25 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
         return 1;
     }
     lib->docs = new_docs;
-
+    
     Document *doc = &lib->docs[lib->count];
-    /* copiar só o nome (não o caminho completo se preferir) */
     strncpy(doc->name, docname, MAX_NAME - 1);
     doc->name[MAX_NAME - 1] = '\0';
 
     doc->size   = (long) info.st_size;
     doc->date   = info.st_mtime;   /* ou st_atime/st_ctime conforme necessidade */
-    doc->offset = offset;
+    doc->offset = off;
+
 
     lib->count++;
 
-    /* NOTA: aqui atualizamos apenas a estrutura em memória.
-       Se você precisa persistir o header/diretório no arquivo .gbv,
-       faça fseek(file, 0, SEEK_SET) e reescreva o bloco/header e a tabela de Document. */
+    long *new_off = realloc (b.offset, sizeof (long) * lib->count);
+    if (!new_off){
+        printf ("Erro realloc new_off\n");
+        return 1;
+    }
+    b.offset = new_off;
+    b.offset[lib->count] = doc->offset + doc->size;
 
     fclose(file);
     fclose(arq);
