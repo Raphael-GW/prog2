@@ -7,31 +7,31 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Mon Sep 22 08:31:12 2025
+# Make data base, printed on Tue Sep 23 08:31:04 2025
 
 # Variables
 
 # environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
 SYSTEMDRIVE = C:
 # environment
 LC_ALL = C
- 
 # environment
 USERPROFILE = C:\Users\raphael.gaias.TACLA
+ 
 # environment
 LOCALAPPDATA = C:\Users\raphael.gaias.TACLA\AppData\Local
 # environment
-WSLENV = WT_SESSION:WT_PROFILE_ID:
-# environment
 VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
 # environment
-VSCODE_CWD = C:\Users\raphael.gaias.TACLA\Documents\prog2\A1_recursos
+VSCODE_CWD = C:\Users\raphael.gaias.TACLA\AppData\Local\Programs\Microsoft VS Code
 # environment
 SYSTEMROOT = C:\WINDOWS
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-PSMODULEPATH = C:\Users\raphael.gaias.TACLA\Documents\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 # default
 MAKE_COMMAND := make
 # environment
@@ -39,7 +39,11 @@ USERDNSDOMAIN = TACLA.CORP
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_4748_XRUVQXIANQDANIVD
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_15712_EPRZPUCFMOIDDJZK
+# environment
+EFC_15952_1592913036 = 1
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -51,7 +55,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\raphael.gaias.TACLA\AppData\Roaming\Code\CachedData\f220831ea2d946c0dcb0f3eaa480eb435a2c1260
+VSCODE_CODE_CACHE_PATH = C:\Users\raphael.gaias.TACLA\AppData\Roaming\Code\CachedData\0f0d87fa9e96c856c5212fc86db137ac0d783365
 # environment
 LANG = C
 # default
@@ -85,11 +89,11 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 4748
+VSCODE_PID = 15712
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-WT_PROFILE_ID = {61c54bbd-c2c6-5271-96e7-009a87ff44bf}
+EFC_15952_1262719628 = 1
 # automatic
 *F = $(notdir $*)
 # automatic
@@ -116,21 +120,19 @@ WINDIR = C:\WINDOWS
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
+ 
 # environment
 PATH = /c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/dotnet:/c/Program Files/Git/cmd:/mingw64/bin:/usr/bin:/c/Users/raphael.gaias.TACLA/AppData/Local/Microsoft/WindowsApps:/c/Users/raphael.gaias.TACLA/AppData/Local/Programs/Microsoft VS Code/bin:/mingw64/bin:/usr/bin
 # environment
 ZES_ENABLE_SYSMAN = 1
 # environment
 COMPUTERNAME = TI-RAPHAEL
- 
 # default
 MAKEFILES := 
 # automatic
 ^F = $(notdir $^)
 # environment
 PROMPT = $P$G
-# environment
-WT_SESSION = 3e23e3b5-e56b-413a-819f-08592193a2db
 # environment
 LOGONSERVER = \\DC-TACLA-CORP
 # environment
@@ -142,7 +144,7 @@ COMMONPROGRAMFILES = C:\Program Files\Common Files
 # environment
 PROGRAMW6432 = C:\Program Files
 # environment
-PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
 # automatic
 +F = $(notdir $+)
 # environment
@@ -153,6 +155,8 @@ USERDOMAIN = TACLA
 GNUMAKEFLAGS := 
 # environment
 OS = Windows_NT
+# environment
+__COMPAT_LAYER = DetectorsAppHealth
 # makefile
 .DEFAULT_GOAL := all
 # default
@@ -179,17 +183,19 @@ HOME = /home/raphael.gaias
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
 # environment
 ELECTRON_RUN_AS_NODE = 1
+ 
 # environment
 TEMP = /c/Users/RAPHAE~1.TAC/AppData/Local/Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\0b3aa732-1.104.0-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\0b3aa732-1.104.1-main-sock
 # environment
 TERM = xterm-256color
 # default
- 
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
+# environment
+EFC_15952_3789132940 = 1
 # default
 SUFFIXES := 
 # environment
@@ -197,9 +203,7 @@ ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
 # environment
-VSCODE_CLI = 1
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
+EFC_15952_2775293581 = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync check-symlink load dospaths
 # environment
@@ -207,11 +211,14 @@ PROCESSOR_REVISION = 7e05
 # makefile (from 'Makefile', line 1)
 CC = gcc
 # environment
+EFC_15952_2283032206 = 1
+# environment
 VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
-# Load=98/1024=10%, Rehash=0, Collisions=11/129=9%
+ 
+# Load=101/1024=10%, Rehash=0, Collisions=13/132=10%
 
 # Pattern-specific Variable Values
 
@@ -219,9 +226,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 
 # Directories
 
-# . (device 776031685, inode 1688849860424596): 15 files, no impossibilities.
+# . (device 776031685, inode 1688849860424596): 13 files, no impossibilities.
 
-# 15 files, no impossibilities in 1 directories.
+# 13 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -231,54 +238,32 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 
 # Not a target:
 util.h:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-09-22 08:30:48.120448
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
 #  File is secondary (prerequisite of .SECONDARY).
- 
 #  Last modified 2025-09-22 08:30:48.1134483
 #  File has been updated.
 #  Successfully updated.
 
 util.o: util.c util.h
 #  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-09-22 08:30:48.1214482
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 16):
 	$(CC) $(CFLAGS) -c util.c
 
 gbv: main.o gbv.o util.o
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  Last modified 2025-09-22 08:30:48.1164668
+#  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
-# automatic
-# @ := gbv
-# automatic
-# * := 
-# automatic
-# < := main.o
-# automatic
-# + := main.o gbv.o util.o
-# automatic
-# % := 
-# automatic
-# ^ := main.o gbv.o util.o
-# automatic
-# ? := main.o gbv.o util.o
-# automatic
-# | := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=2/13=15%
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
 #  recipe to execute (from 'Makefile', line 7):
 	$(CC) $(CFLAGS) -o gbv main.o gbv.o util.o
 
@@ -298,29 +283,22 @@ valgrind: all
 
 # Not a target:
 util.c:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-09-22 08:30:48.1194487
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 gbv.o: gbv.c gbv.h
 #  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-09-22 08:30:48.1174449
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 13):
- 
 	$(CC) $(CFLAGS) -c gbv.c
 
 # Not a target:
 gbv.c:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-09-22 08:30:48.1144715
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 .DEFAULT:
@@ -331,6 +309,7 @@ gbv.c:
 all: gbv
 #  Command line target.
 #  Implicit rule search has been done.
+ 
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
@@ -347,10 +326,28 @@ main.c:
 
 main.o: main.c gbv.h
 #  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-09-22 08:30:48.1194487
+#  Implicit/static pattern stem: ''
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := main.o
+# automatic
+# * := 
+# automatic
+# < := main.c
+# automatic
+# + := main.c gbv.h
+# automatic
+# % := 
+# automatic
+# ^ := main.c gbv.h
+# automatic
+# ? := main.c gbv.h
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/13=15%
 #  recipe to execute (from 'Makefile', line 10):
 	$(CC) $(CFLAGS) -c main.c
 
@@ -376,12 +373,13 @@ gbv.h:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 22 / storage = 154 B / avg = 7 B
-# current buf: size = 8162 B / used = 154 B / count = 22 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 23 / storage = 160 B / avg = 6 B
+# current buf: size = 8162 B / used = 160 B / count = 23 / avg = 6 B
 
-# strcache performance: lookups = 48 / hit rate = 54%
+# strcache performance: lookups = 46 / hit rate = 50%
 # hash-table stats:
-# Load=22/8192=0%, Rehash=0, Collisions=0/48=0%
-# Finished Make data base on Mon Sep 22 08:31:12 2025
+ 
+# Load=23/8192=0%, Rehash=0, Collisions=0/46=0%
+# Finished Make data base on Tue Sep 23 08:31:04 2025
 
  
