@@ -7,7 +7,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Tue Sep 23 08:31:04 2025
+# Make data base, printed on Fri Sep 26 11:28:08 2025
 
 # Variables
 
@@ -18,8 +18,10 @@ SYSTEMDRIVE = C:
 # environment
 LC_ALL = C
 # environment
-USERPROFILE = C:\Users\raphael.gaias.TACLA
  
+USERPROFILE = C:\Users\raphael.gaias.TACLA
+# environment
+EFC_9336_1592913036 = 1
 # environment
 LOCALAPPDATA = C:\Users\raphael.gaias.TACLA\AppData\Local
 # environment
@@ -36,12 +38,12 @@ PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\Wi
 MAKE_COMMAND := make
 # environment
 USERDNSDOMAIN = TACLA.CORP
+# environment
+EFC_9336_3789132940 = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_15712_EPRZPUCFMOIDDJZK
-# environment
-EFC_15952_1592913036 = 1
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_16100_CRDBBEPSULPQNRLH
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -89,11 +91,9 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 15712
+VSCODE_PID = 16100
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
-# environment
-EFC_15952_1262719628 = 1
 # automatic
 *F = $(notdir $*)
 # automatic
@@ -118,6 +118,8 @@ COMSPEC = C:\WINDOWS\system32\cmd.exe
 WINDIR = C:\WINDOWS
 # environment
 MAKELEVEL := 0
+# environment
+EFC_9336_1262719628 = 1
 # default
 MAKE = $(MAKE_COMMAND)
  
@@ -155,8 +157,6 @@ USERDOMAIN = TACLA
 GNUMAKEFLAGS := 
 # environment
 OS = Windows_NT
-# environment
-__COMPAT_LAYER = DetectorsAppHealth
 # makefile
 .DEFAULT_GOAL := all
 # default
@@ -182,8 +182,9 @@ HOME = /home/raphael.gaias
 # environment
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
 # environment
+EFC_9336_2283032206 = 1
+# environment
 ELECTRON_RUN_AS_NODE = 1
- 
 # environment
 TEMP = /c/Users/RAPHAE~1.TAC/AppData/Local/Temp
 # environment
@@ -194,16 +195,15 @@ TERM = xterm-256color
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
-# environment
-EFC_15952_3789132940 = 1
 # default
 SUFFIXES := 
 # environment
 ALLUSERSPROFILE = C:\ProgramData
 # environment
+ 
 SESSIONNAME = Console
 # environment
-EFC_15952_2775293581 = 1
+EFC_9336_2775293581 = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync check-symlink load dospaths
 # environment
@@ -211,14 +211,11 @@ PROCESSOR_REVISION = 7e05
 # makefile (from 'Makefile', line 1)
 CC = gcc
 # environment
-EFC_15952_2283032206 = 1
-# environment
 VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
- 
-# Load=101/1024=10%, Rehash=0, Collisions=13/132=10%
+# Load=100/1024=10%, Rehash=0, Collisions=12/131=9%
 
 # Pattern-specific Variable Values
 
@@ -250,6 +247,7 @@ Makefile:
 #  File has been updated.
 #  Successfully updated.
 
+ 
 util.o: util.c util.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -309,7 +307,6 @@ gbv.c:
 all: gbv
 #  Command line target.
 #  Implicit rule search has been done.
- 
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
@@ -335,6 +332,7 @@ main.o: main.c gbv.h
 # automatic
 # * := 
 # automatic
+ 
 # < := main.c
 # automatic
 # + := main.c gbv.h
@@ -378,8 +376,7 @@ gbv.h:
 
 # strcache performance: lookups = 46 / hit rate = 50%
 # hash-table stats:
- 
 # Load=23/8192=0%, Rehash=0, Collisions=0/46=0%
-# Finished Make data base on Tue Sep 23 08:31:04 2025
+# Finished Make data base on Fri Sep 26 11:28:08 2025
 
  

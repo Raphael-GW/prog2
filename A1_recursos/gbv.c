@@ -207,8 +207,17 @@ int gbv_remove(Library *lib, const char *docname){
         }
     }
 
-    fseek (file, off, SEEK_SET);
+    char buffer [BUFFER_SIZE];
+    int n;
     for (int i = indice + 1; i < lib->count; i++){
+        fseek (file, lib->docs[i].offset, SEEK_SET);
+
+        while (n = fread (buffer, 1, BUFFER_SIZE, file) > 0){}
+
+        fseek (file, off, SEEK_SET);
+        while (n = fwrite (buffer, 1, BUFFER_SIZE, file) > 0){}
+
+        off += lib->docs[i].size;
         
     }
 
