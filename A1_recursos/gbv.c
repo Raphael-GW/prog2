@@ -122,49 +122,45 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     }
 
     // Onde será gravado o conteúdo do arquivo
-    long off;
-    if (arq_existe) {
-        off = lib->docs[indice].offset;
-    } else {
-        off = b->offset;  
-    }
-    
-
+    long off = b->offset;
     fseek (file, off, SEEK_SET);
 
-    // copia em blocos do arquivo fonte para o container
-    char buffer[BUFFER_SIZE];
-    size_t n;
-    while ((n = fread(buffer, 1, BUFFER_SIZE, arq)) > 0) {
-        if (fwrite(buffer, 1, n, file) != n) {
-            printf ("Erro na escrita");
+    if (!arq_existe){
+        // copia em blocos do arquivo fonte para o container
+        char buffer[BUFFER_SIZE];
+        size_t n;
+        while ((n = fread(buffer, 1, BUFFER_SIZE, arq)) > 0) {
+            if (fwrite(buffer, 1, n, file) != n) {
+                printf ("Erro na escrita");
+                fclose(file);
+                fclose(arq);
+                return 1;
+            }
+        }
+        if (ferror(arq)) {
+            printf ("Erro ao ler arquivo de origem");
             fclose(file);
             fclose(arq);
             return 1;
         }
     }
-    if (ferror(arq)) {
-        printf ("Erro ao ler arquivo de origem");
+    else{   // Se o arquivo existe corrige o espaçamento entre os arquivos
+        gbv_remove (lib, docname);
+        gbv_add (docname);
+    }
+
+    // atualizar metadados em memória (lib)
+    Document *new_docs = realloc(lib->docs, sizeof(Document) * (lib->count + 1));
+    if (!new_docs) {
+        printf (" Erro realloc docs\n");
         fclose(file);
         fclose(arq);
         return 1;
     }
-
-    fclose(arq);
-    Document *new_docs;
-    // atualizar metadados em memória (lib)
-    if (!arq_existe){
-        new_docs = realloc(lib->docs, sizeof(Document) * (lib->count + 1));
-        if (!new_docs) {
-            printf (" Erro realloc docs\n");
-            fclose(file);
-            fclose(arq);
-            return 1;
-        }
-        indice = lib->count;
-    }
+    indice = lib->count;
     
-    Document *doc = &lib->docs[indice];
+    
+    Document *doc = &new_docs [indice];
     strncpy(doc->name, docname, MAX_NAME - 1);
     doc->name[MAX_NAME - 1] = '\0';
     doc->size   = (long) info.st_size;
@@ -181,6 +177,7 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     fseek(file, b->offset, SEEK_SET);
     fwrite(new_docs, sizeof(Document), b->num_arquivos, file);
 
+    fclose (arq);
     free (b);
     fclose(file);
     return 0;
@@ -201,6 +198,8 @@ int gbv_remove(Library *lib, const char *docname){
         printf("Bloco não achado\n");
         return 1;
     }
+
+    fseek (file, b->offset, SEEK_SET);
     
     int indice = 0, achou = 0;
     for (int i = 0; i < lib->count; i++){
@@ -228,7 +227,6 @@ int gbv_remove(Library *lib, const char *docname){
     if (!new_docs) {
         printf (" Erro realloc docs\n");
         fclose(file);
-        fclose(arq);
         return 1;
     }
 
