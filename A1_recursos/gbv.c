@@ -151,19 +151,17 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     }
 
     fclose(arq);
-
+    Document *new_docs;
     // atualizar metadados em memória (lib)
     if (!arq_existe){
-        Document *new_docs = realloc(lib->docs, sizeof(Document) * (lib->count + 1));
+        new_docs = realloc(lib->docs, sizeof(Document) * (lib->count + 1));
         if (!new_docs) {
             printf (" Erro realloc docs\n");
             fclose(file);
             fclose(arq);
             return 1;
         }
-        lib->docs = new_docs;
         indice = lib->count;
-        lib->count++;
     }
     
     Document *doc = &lib->docs[indice];
@@ -181,7 +179,7 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
 
     // Vai para o final do arquivo e regrava diretório inteiro
     fseek(file, b->offset, SEEK_SET);
-    fwrite(lib->docs, sizeof(Document), lib->count, file);
+    fwrite(new_docs, sizeof(Document), b->num_arquivos, file);
 
     free (b);
     fclose(file);
@@ -197,30 +195,49 @@ int gbv_remove(Library *lib, const char *docname){
         return 1;
     }
 
-    int indice = 0, off = 0;
-
-    for (int i = 0; i < lib->count; i++) {
-        if (strcmp(lib->docs[i].name, docname) == 0) {
-            off = lib->docs[i].offset;
+    struct bloco *b = cria_bloco ();
+    if (fread(b, sizeof(struct bloco), 1, file) != 1){
+        fclose(file);
+        printf("Bloco não achado\n");
+        return 1;
+    }
+    
+    int indice = 0, achou = 0;
+    for (int i = 0; i < lib->count; i++){
+        if (strcmp (docname, lib->docs[i].name) == 0){
             indice = i;
+            achou = 1;
             break;
         }
     }
 
-    char buffer [BUFFER_SIZE];
-    int n;
-    for (int i = indice + 1; i < lib->count; i++){
-        fseek (file, lib->docs[i].offset, SEEK_SET);
-
-        while (n = fread (buffer, 1, BUFFER_SIZE, file) > 0){}
-
-        fseek (file, off, SEEK_SET);
-        while (n = fwrite (buffer, 1, BUFFER_SIZE, file) > 0){}
-
-        off += lib->docs[i].size;
-        
+    if (!achou){
+        fclose (file);
+        free (b);
+        return 1;
     }
 
+    // move o metadado do arquivo para o final do diretório
+    for (int i = indice; i < lib->count - 1; i++){
+        Document aux = lib->docs[i];
+        lib->docs[i] = lib->docs[i + 1];
+        lib->docs[i + 1] = aux;
+    }
+
+    Document *new_docs = realloc(lib->docs, sizeof(Document) * (lib->count - 1));
+    if (!new_docs) {
+        printf (" Erro realloc docs\n");
+        fclose(file);
+        fclose(arq);
+        return 1;
+    }
+
+    rewind (file);
+    b->num_arquivos--;
+    fwrite (b, sizeof (struct bloco), 1, file);
+
+    fseek (file, b->offset, SEEK_SET);
+    fwrite (new_docs, sizeof(Document) * (lib->count - 1), 1, file);
 }
 
 int gbv_list(const Library *lib){
