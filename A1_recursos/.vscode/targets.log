@@ -7,7 +7,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Fri Sep 26 11:28:08 2025
+# Make data base, printed on Thu Oct  2 08:18:55 2025
 
 # Variables
 
@@ -18,10 +18,9 @@ SYSTEMDRIVE = C:
 # environment
 LC_ALL = C
 # environment
- 
-USERPROFILE = C:\Users\raphael.gaias.TACLA
+EFC_7536_1592913036 = 1
 # environment
-EFC_9336_1592913036 = 1
+USERPROFILE = C:\Users\raphael.gaias.TACLA
 # environment
 LOCALAPPDATA = C:\Users\raphael.gaias.TACLA\AppData\Local
 # environment
@@ -38,12 +37,10 @@ PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\Wi
 MAKE_COMMAND := make
 # environment
 USERDNSDOMAIN = TACLA.CORP
-# environment
-EFC_9336_3789132940 = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_16100_CRDBBEPSULPQNRLH
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_16440_GKAHWQGYFDPZAYOV
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -60,6 +57,8 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 VSCODE_CODE_CACHE_PATH = C:\Users\raphael.gaias.TACLA\AppData\Roaming\Code\CachedData\0f0d87fa9e96c856c5212fc86db137ac0d783365
 # environment
 LANG = C
+# environment
+EFC_7536_2283032206 = 1
 # default
 .LOADED := 
 # environment
@@ -91,15 +90,19 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 16100
+VSCODE_PID = 16440
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 *F = $(notdir $*)
+# environment
+EFC_7536_2775293581 = 1
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"pt-br","resolvedLanguage":"en","defaultMessagesFile":"C:\\Users\\raphael.gaias.TACLA\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","locale":"en-us","availableLanguages":{}}
+# environment
+EFC_7536_3789132940 = 1
 # default
 MAKE_HOST := x86_64-pc-msys
 # environment
@@ -118,11 +121,8 @@ COMSPEC = C:\WINDOWS\system32\cmd.exe
 WINDIR = C:\WINDOWS
 # environment
 MAKELEVEL := 0
-# environment
-EFC_9336_1262719628 = 1
 # default
 MAKE = $(MAKE_COMMAND)
- 
 # environment
 PATH = /c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/dotnet:/c/Program Files/Git/cmd:/mingw64/bin:/usr/bin:/c/Users/raphael.gaias.TACLA/AppData/Local/Microsoft/WindowsApps:/c/Users/raphael.gaias.TACLA/AppData/Local/Programs/Microsoft VS Code/bin:/mingw64/bin:/usr/bin
 # environment
@@ -139,6 +139,8 @@ PROMPT = $P$G
 LOGONSERVER = \\DC-TACLA-CORP
 # environment
 USERNAME = raphael.gaias
+# environment
+EFC_7536_1262719628 = 1
 # environment
 COMMONPROGRAMFILES = C:\Program Files\Common Files
 # automatic
@@ -182,8 +184,6 @@ HOME = /home/raphael.gaias
 # environment
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
 # environment
-EFC_9336_2283032206 = 1
-# environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = /c/Users/RAPHAE~1.TAC/AppData/Local/Temp
@@ -200,10 +200,7 @@ SUFFIXES :=
 # environment
 ALLUSERSPROFILE = C:\ProgramData
 # environment
- 
 SESSIONNAME = Console
-# environment
-EFC_9336_2775293581 = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync check-symlink load dospaths
 # environment
@@ -247,7 +244,6 @@ Makefile:
 #  File has been updated.
 #  Successfully updated.
 
- 
 util.o: util.c util.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -313,6 +309,7 @@ all: gbv
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/5=0%
 
+ 
 # Not a target:
 main.c:
 #  Implicit rule search has been done.
@@ -332,7 +329,6 @@ main.o: main.c gbv.h
 # automatic
 # * := 
 # automatic
- 
 # < := main.c
 # automatic
 # + := main.c gbv.h
@@ -377,6 +373,6 @@ gbv.h:
 # strcache performance: lookups = 46 / hit rate = 50%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=0/46=0%
-# Finished Make data base on Fri Sep 26 11:28:08 2025
+# Finished Make data base on Thu Oct  2 08:18:55 2025
 
  

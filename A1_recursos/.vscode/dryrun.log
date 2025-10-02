@@ -3,7 +3,6 @@ make: Entering directory '/c/Users/raphael.gaias.TACLA/Documents/prog2/A1_recurs
 gcc -Wall -g -c main.c
  
 gcc -Wall -g -c gbv.c
- 
 gcc -Wall -g -c util.c
 gcc -Wall -g -o gbv main.o gbv.o util.o
 make: Leaving directory '/c/Users/raphael.gaias.TACLA/Documents/prog2/A1_recursos'
