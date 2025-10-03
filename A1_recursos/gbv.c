@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include "util.h"
 #include "gbv.h"
 
@@ -223,14 +224,14 @@ int gbv_remove(Library *lib, const char *docname){
         tam_total_shift += lib->docs[i].size;
     }
 
-    long off_leitura = lib->docs[indice + 1].offset;
-    long off_escrita = lib->docs[indice].offset;
-
     size_t n;
     char buffer[BUFFER_SIZE];
+    long off_escrita = lib->docs[indice].offset;
 
     // Se houver dados para mover
     if (tam_total_shift > 0) {
+        long off_leitura = lib->docs[indice + 1].offset;
+        
         fseek(file, off_leitura, SEEK_SET);
 
         // O loop lê e escreve, movendo os dados
@@ -253,6 +254,50 @@ int gbv_remove(Library *lib, const char *docname){
             }
         }
     }
+
+    // atualiza o diretório
+    long tam_shift = lib->docs[indice].size;
+    for (int i = indice; i < lib->count - 1; i++){
+        lib->docs[i] = lib->docs[i + 1];
+        lib->docs[i].offset -= tam_shift;
+    }
+
+    Document *newdocs = realloc (lib->docs, sizeof (Document) * (lib->count - 1));
+    if (!newdocs){
+        fclose (file);
+        free (b);
+        return 1;
+    }
+    lib->docs = newdocs;
+    lib->count--;
+
+    b->num_arquivos = lib->count;
+    b->offset = lib->docs[lib->count - 1].offset + lib->docs[lib->count - 1].size;
+
+    rewind (file);
+    n = fwrite (b, sizeof (struct bloco), 1, file);
+    if (n != 1){
+        fclose (file);
+        free (b);
+        return 1;
+    }
+
+    fseek (file, b->offset, SEEK_SET);
+    n = fwrite (lib->docs, sizeof (Document), lib->count, file);
+    if (n != 1){
+        fclose (file);
+        free (b);
+        return 1;
+    }
+
+    long new_file_size = b->offset + (lib->count * sizeof(Document));
+    if (ftruncate(fileno(file), new_file_size) != 0) {
+        printf ("Erro ao truncar o arquivo (ftruncate)");
+    }
+
+    fclose (file);
+    free (b);
+    return 1;
 }
 
 int gbv_list(const Library *lib){
