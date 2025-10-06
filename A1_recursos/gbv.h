@@ -2,6 +2,7 @@
 #define GBV_H
 
 #include <time.h>
+#include <stdlib.h>
 
 #define MAX_NAME 256
 #define BUFFER_SIZE 512   // tamanho fixo do buffer em bytes

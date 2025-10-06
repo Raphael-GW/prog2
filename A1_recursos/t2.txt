@@ -1,1 +1,1 @@
-bing-bong
+arquivos binários: contém sequências de bytes, cuja interpretação fica totalmente a cargo da aplicação. São usualmente empregados para armazenar imagens, vídeos, músicas, dados compactados, etc.

@@ -20,12 +20,14 @@ int gbv_create(const char *filename){
         printf ("Erro ao criar bloco\n");
         return 1;
     }
-    
+
+    // 
+    b->offset = sizeof (struct bloco);
     if (fwrite (b, sizeof (struct bloco), 1, file) != 1){
         printf ("Erro ao escrever superbloco\n");
         return 1;
     }
-
+    
     free (b);
     fclose (file);
     return 0;
@@ -36,7 +38,9 @@ int gbv_open(Library *lib, const char *filename){
         printf("filename NULL\n");
         return 1;
     }
-    gbv = filename;
+
+    gbv = filename; // adiciona a biblioteca na variavel global
+
     FILE *file = fopen(filename, "r+b");
     if (!file){
         if (gbv_create(filename) == 0){
@@ -58,6 +62,7 @@ int gbv_open(Library *lib, const char *filename){
         return 1;
     }
 
+    // verifica se existe mais de um arquivo e cria o diretorio
     lib->count = b->num_arquivos;
     if (lib->count > 0){
         lib->docs = malloc(sizeof(Document) * lib->count);
@@ -117,7 +122,7 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
         printf ("Bloco não achado\n");
         return 1;
     }
-
+    
     // pega as informações do arquivo
     struct stat info;
     if (stat(docname, &info) != 0) {
@@ -131,7 +136,7 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     long off = b->offset;
     fseek (file, off, SEEK_SET);
 
-    
+    long start_write = ftell (file);
     // copia em blocos do arquivo fonte para o container
     char buffer[BUFFER_SIZE];
     size_t n;
@@ -143,6 +148,8 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
             return 1;
         }
     }
+    fflush (file);
+
     if (ferror(arq)) {
         printf ("Erro ao ler arquivo de origem");
         fclose(file);
@@ -164,25 +171,37 @@ int gbv_add(Library *lib, const char *archive, const char *docname){
     indice = lib->count;
     lib->docs = new_docs;
     
-    
     Document *doc = &lib->docs [indice];
     strncpy(doc->name, docname, MAX_NAME - 1);
     doc->name[MAX_NAME - 1] = '\0';
     doc->size   = (long) info.st_size;
     doc->date   = info.st_mtime;
-    doc->offset = off;
+    doc->offset = start_write;
     
     lib->count++;
     b->num_arquivos = lib->count;
-    b->offset += doc->size;
+    b->offset = ftell (file);
     
+    // escreve o bloco e o diretorio na memoria
+    fseek (file, b->offset, SEEK_SET);
+    if (fwrite (lib->docs, sizeof (Document), lib->count, file) != lib->count){
+        printf ("Erro ao escrever diretório\n");
+        fclose (file);
+        fclose (arq);
+        free (b);
+        return 1;
+    }
+
     rewind (file);
-    fwrite (b, sizeof(struct bloco), 1, file);
+    if (fwrite(b, sizeof(struct bloco), 1, file) != 1) {
+        printf("Erro ao atualizar superbloco\n");
+        fclose (file);
+        fclose (arq);
+        free (b);
+        return 1;
+    }
 
-    // Vai para o final do arquivo e regrava diretório inteiro
-    fseek(file, b->offset, SEEK_SET);
-    fwrite(new_docs, sizeof(Document), lib->count, file);
-
+    // fecha os arquivos
     fclose (arq);
     free (b);
     fclose(file);
@@ -219,6 +238,7 @@ int gbv_remove(Library *lib, const char *docname){
         return 1;
     }
 
+    // calcula o tamanho do shift
     long tam_total_shift = 0;
     for (int i = indice + 1; i < lib->count; i++){
         tam_total_shift += lib->docs[i].size;
@@ -262,18 +282,24 @@ int gbv_remove(Library *lib, const char *docname){
         lib->docs[i].offset -= tam_shift;
     }
 
-    Document *newdocs = realloc (lib->docs, sizeof (Document) * (lib->count - 1));
-    if (!newdocs){
-        fclose (file);
-        free (b);
-        return 1;
+    // atualiza os metadados do diretorio
+    if (lib->count > 1){
+        Document *newdocs = realloc (lib->docs, sizeof (Document) * (lib->count - 1));
+        if (!newdocs){
+            printf ("Erro realloc\n");
+            fclose (file);
+            free (b);
+            return 1;
+        }
+        lib->docs = newdocs;
     }
-    lib->docs = newdocs;
     lib->count--;
 
     b->num_arquivos = lib->count;
     b->offset = lib->docs[lib->count - 1].offset + lib->docs[lib->count - 1].size;
 
+
+    // escreve o bloco e o diretorio atualizado na memoria
     rewind (file);
     n = fwrite (b, sizeof (struct bloco), 1, file);
     if (n != 1){
@@ -290,6 +316,7 @@ int gbv_remove(Library *lib, const char *docname){
         return 1;
     }
 
+    // trunca o arquivo
     long new_file_size = b->offset + (lib->count * sizeof(Document));
     if (ftruncate(fileno(file), new_file_size) != 0) {
         printf ("Erro ao truncar o arquivo (ftruncate)");
@@ -311,6 +338,7 @@ int gbv_list(const Library *lib){
         format_date (lib->docs[i].date, data, MAX_NAME);
         printf ("Data: %s\n", data);
         printf ("Offset: %ld\n", lib->docs[i].offset);
+        printf ("---//---\n");
     }
 
     return 1;
@@ -324,44 +352,68 @@ int gbv_view(const Library *lib, const char *docname){
         printf ("Erro ao abrir lib\n");
         return 1;
     }
-
+    
     int indice = -1;
     for (int i = 0; i < lib->count; i++){
-        if (lib->docs[i].name == docname){
+        if (strcmp (lib->docs[i].name, docname) == 0){
             indice = i;
+            break;
         }
     }
 
     if (indice == -1){
         printf ("Arquivo não achado\n");
+        fclose (file);
         return 1;
     }
 
-    long off = lib->docs[indice].offset;
-    long limite = lib->docs[indice + 1].offset;
-    fseek (file, off, SEEK_SET);
+    long off = lib->docs[indice].offset; // inicio do arquivo
+    long limite = off + lib->docs[indice].size; // final do arquivo
+    long pos = off;
+    long max_ler;
 
-    char c = fgetc (file);
-    putchar (c);
-    int count = 0;
-    int bloco = BUFFER_SIZE;
-    while (ftell (file) < limite && count < bloco){
-        count++;
-        c = fgetc (file);
-        putchar (c);
-    }
-    
-    char opcao;
-    scanf ("%c", &opcao);
+    char buffer[BUFFER_SIZE + 1];
+    char opcao = 'n';
 
-    while (opcao != 'q'){
-        count = 0;
+    while (1) {
+        // determina quanto do arquivo pode ser lido
+        if ((limite - pos) < BUFFER_SIZE) max_ler = limite - pos;
+        else max_ler = BUFFER_SIZE;
 
-        switch (opcao){
-            case 'n':
-                if ((ftell (file) + bloco) < limite){
-                    fseek (file, ftell (file) + bloco, SEEK_SET);
-                }
+        fseek(file, pos, SEEK_SET);
+        size_t lidos = fread(buffer, 1, max_ler, file);
+        
+        buffer[lidos] = '\0';
+        
+        for (int i = 0; i < lidos; i++){
+            printf ("%02x", buffer[i]);
+        }
+
+        printf("\n[n] próximo | [p] anterior | [q] sair > ");
+        fflush(stdout);
+
+        // pega a proxima instrucao
+        do {
+            opcao = getchar();
+        } while (opcao == '\n');
+
+        if (opcao == 'q') break;
+
+        if (opcao == 'n') {
+            if (pos + BUFFER_SIZE < limite)
+                pos += BUFFER_SIZE;
+            else
+                printf("\nJá está no último bloco.\n");
+        } else if (opcao == 'p') {
+            if (pos - BUFFER_SIZE >= off)
+                pos -= BUFFER_SIZE;
+            else
+                printf("\nJá está no primeiro bloco.\n");
+        } else {
+            printf("\nOpção inválida.\n");
         }
     }
+
+    fclose(file);
+    return 0;
 }

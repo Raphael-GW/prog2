@@ -1,1 +1,1 @@
-Raphael Gaias
+arquivos de texto: contém sequências de bytes representando caracteres de texto, separadas por caracteres de controle como \n ou \r e usando uma codificação como ASCII, ISO-8859-1 ou UTF-8. São usados para armazenar informação textual, como código-fonte, páginas Web, arquivos de configuração, etc.

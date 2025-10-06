@@ -33,6 +33,8 @@ int main(int argc, char *argv[]) {
         printf("Opção inválida.\n");
     }
 
+    free (lib.docs);
+
     return 0;
 }
 
