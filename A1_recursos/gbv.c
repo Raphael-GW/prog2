@@ -319,4 +319,49 @@ int gbv_list(const Library *lib){
 int gbv_view(const Library *lib, const char *docname){
     if (!lib || !docname) return 1;
 
+    FILE *file = fopen (gbv, "rb");
+    if (!file){
+        printf ("Erro ao abrir lib\n");
+        return 1;
+    }
+
+    int indice = -1;
+    for (int i = 0; i < lib->count; i++){
+        if (lib->docs[i].name == docname){
+            indice = i;
+        }
+    }
+
+    if (indice == -1){
+        printf ("Arquivo não achado\n");
+        return 1;
+    }
+
+    long off = lib->docs[indice].offset;
+    long limite = lib->docs[indice + 1].offset;
+    fseek (file, off, SEEK_SET);
+
+    char c = fgetc (file);
+    putchar (c);
+    int count = 0;
+    int bloco = BUFFER_SIZE;
+    while (ftell (file) < limite && count < bloco){
+        count++;
+        c = fgetc (file);
+        putchar (c);
+    }
+    
+    char opcao;
+    scanf ("%c", &opcao);
+
+    while (opcao != 'q'){
+        count = 0;
+
+        switch (opcao){
+            case 'n':
+                if ((ftell (file) + bloco) < limite){
+                    fseek (file, ftell (file) + bloco, SEEK_SET);
+                }
+        }
+    }
 }

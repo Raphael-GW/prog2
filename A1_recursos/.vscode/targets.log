@@ -2,18 +2,18 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # GNU Make 4.4.1
 # Built for x86_64-pc-msys
 # Copyright (C) 1988-2023 Free Software Foundation, Inc.
+ 
 # License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Fri Oct  3 08:30:57 2025
+# Make data base, printed on Mon Oct  6 09:03:04 2025
 
 # Variables
 
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
- 
 # environment
 SYSTEMDRIVE = C:
 # environment
@@ -22,6 +22,8 @@ LC_ALL = C
 USERPROFILE = C:\Users\raphael.gaias.TACLA
 # environment
 LOCALAPPDATA = C:\Users\raphael.gaias.TACLA\AppData\Local
+# environment
+EFC_13648_2283032206 = 1
 # environment
 VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
 # environment
@@ -36,12 +38,10 @@ PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\Wi
 MAKE_COMMAND := make
 # environment
 USERDNSDOMAIN = TACLA.CORP
-# environment
-EFC_18404_1592913036 = 1
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_9344_QAURIEEGWSQCXHJN
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_17748_POBPUORZSKWRYFXC
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -55,7 +55,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\raphael.gaias.TACLA\AppData\Roaming\Code\CachedData\e3a5acfb517a443235981655413d566533107e92
+VSCODE_CODE_CACHE_PATH = C:\Users\raphael.gaias.TACLA\AppData\Roaming\Code\CachedData\385651c938df8a906869babee516bffd0ddb9829
 # environment
 LANG = C
 # default
@@ -70,8 +70,6 @@ MAKEFLAGS = pqrR
 ONEDRIVE = C:\Users\raphael.gaias.TACLA\OneDrive
 # makefile
 CURDIR := /c/Users/raphael.gaias.TACLA/Documents/prog2/A1_recursos
-# environment
-EFC_18404_2775293581 = 1
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
@@ -91,17 +89,19 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 9344
+VSCODE_PID = 17748
+# environment
+EFC_13648_2775293581 = 1
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 *F = $(notdir $*)
+# environment
+EFC_13648_1592913036 = 1
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
 VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"pt-br","resolvedLanguage":"en","defaultMessagesFile":"C:\\Users\\raphael.gaias.TACLA\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","locale":"en-us","availableLanguages":{}}
-# environment
-EFC_18404_3789132940 = 1
 # default
 MAKE_HOST := x86_64-pc-msys
 # environment
@@ -158,8 +158,6 @@ GNUMAKEFLAGS :=
 OS = Windows_NT
 # environment
 __COMPAT_LAYER = DetectorsAppHealth
-# environment
-EFC_18404_2283032206 = 1
 # makefile
 .DEFAULT_GOAL := all
 # default
@@ -181,17 +179,17 @@ HOMEDRIVE = C:
 # environment
 PROCESSOR_ARCHITECTURE = AMD64
 # environment
+EFC_13648_1262719628 = 1
+# environment
 HOME = /home/raphael.gaias
 # environment
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
-# environment
-EFC_18404_1262719628 = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = /c/Users/RAPHAE~1.TAC/AppData/Local/Temp
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\0b3aa732-1.104.2-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\0b3aa732-1.104.3-main-sock
 # environment
 TERM = xterm-256color
 # default
@@ -204,6 +202,8 @@ SUFFIXES :=
 ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
+# environment
+EFC_13648_3789132940 = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync check-symlink load dospaths
 # environment
@@ -215,7 +215,7 @@ VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
-# Load=101/1024=10%, Rehash=0, Collisions=12/132=9%
+# Load=101/1024=10%, Rehash=0, Collisions=13/132=10%
 
 # Pattern-specific Variable Values
 
@@ -280,7 +280,6 @@ valgrind: all
 
 # Not a target:
 util.c:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -376,6 +375,6 @@ gbv.h:
 # strcache performance: lookups = 45 / hit rate = 51%
 # hash-table stats:
 # Load=22/8192=0%, Rehash=0, Collisions=0/45=0%
-# Finished Make data base on Fri Oct  3 08:30:57 2025
+# Finished Make data base on Mon Oct  6 09:03:04 2025
 
  
