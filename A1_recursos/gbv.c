@@ -21,8 +21,9 @@ int gbv_create(const char *filename){
         return 1;
     }
 
-    // 
+    // coloca o offset logo depois do bloco
     b->offset = sizeof (struct bloco);
+
     if (fwrite (b, sizeof (struct bloco), 1, file) != 1){
         printf ("Erro ao escrever superbloco\n");
         return 1;
@@ -292,32 +293,50 @@ int gbv_remove(Library *lib, const char *docname){
             return 1;
         }
         lib->docs = newdocs;
+        lib->count--;
+
+        b->num_arquivos = lib->count;
+        b->offset = lib->docs[lib->count - 1].offset + lib->docs[lib->count - 1].size;
+
+        // escreve o bloco e o diretorio atualizado na memoria
+        rewind (file);
+        n = fwrite (b, sizeof (struct bloco), 1, file);
+        if (n != 1){
+            fclose (file);
+            printf ("Erro write bloco\n");
+            free (b);
+            return 1;
+        }
+
+        fseek (file, b->offset, SEEK_SET);
+        n = fwrite (lib->docs, sizeof (Document), lib->count, file);
+        if (n != lib->count){
+            printf ("Erro write diretorio\n");
+            fclose (file);
+            free (b);
+            return 1;
+        }
     }
-    lib->count--;
+    else{
+        lib->count--;
 
-    b->num_arquivos = lib->count;
-    b->offset = lib->docs[lib->count - 1].offset + lib->docs[lib->count - 1].size;
+        b->num_arquivos = lib->count;
+        b->offset = sizeof (struct bloco);
 
-
-    // escreve o bloco e o diretorio atualizado na memoria
-    rewind (file);
-    n = fwrite (b, sizeof (struct bloco), 1, file);
-    if (n != 1){
-        fclose (file);
-        free (b);
-        return 1;
+        rewind (file);
+        n = fwrite (b, sizeof (struct bloco), 1, file);
+        if (n != 1){
+            printf ("Erro escrita bloco (1)");
+            fclose (file);
+            free (b);
+            return 1;
+        }
     }
 
-    fseek (file, b->offset, SEEK_SET);
-    n = fwrite (lib->docs, sizeof (Document), lib->count, file);
-    if (n != 1){
-        fclose (file);
-        free (b);
-        return 1;
-    }
 
     // trunca o arquivo
     long new_file_size = b->offset + (lib->count * sizeof(Document));
+    printf ("%ld\n", new_file_size);
     if (ftruncate(fileno(file), new_file_size) != 0) {
         printf ("Erro ao truncar o arquivo (ftruncate)");
     }
