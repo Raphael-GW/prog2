@@ -1,3 +1,5 @@
 Nome: Raphael Gaias Wrublewski
 GRR: 20244362
 Arquivos presentes: teste.txt t2.txt t3.txt bras.txt pablo.jpeg
+Dificuldades: Fazer o shift dos documentos presentes na biblioteca e truncar o arquivo, entender como funcionava a estrutura da biblioteca
+OBS: Foi feita alterações no main.c para tirar a opção de ordenação e foi adicionado um free para o diretório

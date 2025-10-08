@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -7,6 +6,21 @@
 #include "gbv.h"
 
 const char *gbv;
+
+struct bloco {
+    long num_arquivos;
+    long offset;
+};
+
+struct bloco *cria_bloco (){
+    struct bloco *b = malloc (sizeof (struct bloco));
+    if (!b) return NULL;
+
+    b->num_arquivos = 0;
+    b->offset = 0;
+
+    return b;
+}
 
 // função chamada se arquivo não existe
 int gbv_create(const char *filename){
@@ -336,7 +350,6 @@ int gbv_remove(Library *lib, const char *docname){
 
     // trunca o arquivo
     long new_file_size = b->offset + (lib->count * sizeof(Document));
-    printf ("%ld\n", new_file_size);
     if (ftruncate(fileno(file), new_file_size) != 0) {
         printf ("Erro ao truncar o arquivo (ftruncate)");
     }

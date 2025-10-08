@@ -1,0 +1,9 @@
+make.exe: Entering directory `c:/Users/rapha/OneDrive - ufpr.br/�rea de Trabalho/prog2/A1_recursos'
+gcc -Wall -g -c main.c
+ 
+gcc -Wall -g -c gbv.c
+ 
+gcc -Wall -g -c util.c
+gcc -Wall -g -o gbv main.o gbv.o util.o
+make.exe: Leaving directory `c:/Users/rapha/OneDrive - ufpr.br/�rea de Trabalho/prog2/A1_recursos'
+ 
