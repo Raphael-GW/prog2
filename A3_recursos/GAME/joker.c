@@ -1,10 +1,3 @@
-/*
-  Implementação de funções de apoio para a mecânica de pulo:
-  - createJoker(...) : cria a struct Joker (compatível com o uso em main.c)
-  - moveJoker(...)   : tratador de movimento (left/right/crouch/jump)
-  - updateJokerPhysics(...) : aplica gravidade e atualiza posição vertical cada tick
-*/
-
 #include <stdlib.h>
 #include <stdbool.h>
 #include "joker.h"
@@ -43,6 +36,7 @@ Joker* createJoker(int side_x, int side_y, int x, int y, int X_SCREEN, int Y_SCR
     j->side_y = side_y;
     j->x = x;
     j->y = y;
+    j->vida = VIDA_JOKER;
     j->control = joystick_create ();
     if (!j->control){
 
@@ -116,7 +110,7 @@ void updateJokerPhysics(Joker *j){
 }
 
 /* Opcional: função para liberar recursos (não usada no main atual) */
-void destroyJoker(Joker *j){
+void deleteJoker(Joker *j){
     if (!j) return;
     /* remove da tabela física */
     for(int i=0;i<MAX_JOKERS;i++){

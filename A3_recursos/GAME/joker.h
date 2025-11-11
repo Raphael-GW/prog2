@@ -3,10 +3,12 @@
 
 #include "joystick.h"
 
+#define VIDA_JOKER 3
 #define JOKER_STEP 10
 #define V_JOKER_JUMP 0.5
 #define VEL_Y 0
-#define ALTURA_JOKER 20
+#define LARGURA_JOKER 20
+#define ALTURA_JOKER 50
 #define CHAO_Y 220
 
 
@@ -17,11 +19,12 @@
 
 typedef struct {
     unsigned char side_x;					//Tamanho da lateral de um quadrado
-	unsigned char side_y;
+	unsigned char side_y;                   //Tamanho vertical de um quadradro
     unsigned short x;								//Posição X do centro do quadrado
 	unsigned short y;									//Posição Y do centro do quadrado
 	unsigned short max_x;
     unsigned short max_y;
+    int vida;
     
     joystick *control;
 } Joker;

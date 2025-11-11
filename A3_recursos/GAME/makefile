@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -Wall -g
 
-PKG_CFLAGS := $(shell pkg-config --cflags allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5)
-PKG_LIBS   := $(shell pkg-config --libs allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5)
+PKG_CFLAGS := $(shell pkg-config --cflags allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5 allegro_ttf-5)
+PKG_LIBS   := $(shell pkg-config --libs allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5 allegro_ttf-5)
 
 CFLAGS += $(PKG_CFLAGS)
 LDFLAGS := $(PKG_LIBS)
@@ -11,14 +11,17 @@ LDFLAGS := $(PKG_LIBS)
 
 all: game
 
-game: main.o joker.o joystick.o
-	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o $(LDFLAGS)
+game: main.o joker.o joystick.o enemy.o
+	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o enemy.o $(LDFLAGS)
 
 main.o: main.c joker.h
 	$(CC) $(CFLAGS) -c main.c
 
 joker.o: joker.c joker.h
 	$(CC) $(CFLAGS) -c joker.c
+
+enemy.o: enemy.c enemy.h
+	$(CC) $(CFLAGS) -c enemy.c
 
 joystick.o: joystick.c joystick.h
 	$(CC) $(CFLAGS) -c joystick.c
