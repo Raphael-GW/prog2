@@ -1,9 +1,6 @@
-
 CC = gcc
 CFLAGS = -Wall -g
 
-# Use pkg-config to get Allegro cflags and libs. Separate cflags/libs so
-# the include flags are used when compiling and libs when linking.
 PKG_CFLAGS := $(shell pkg-config --cflags allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5)
 PKG_LIBS   := $(shell pkg-config --libs allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5)
 

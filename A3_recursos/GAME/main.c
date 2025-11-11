@@ -10,8 +10,7 @@
 
 #define X_SCREEN 320																																													//Definição do tamanho da tela em pixels no eixo x
 #define Y_SCREEN 320																																													//Definição do tamanho da tela em pixels no eixo y
-#define ALTURA_JOKER 20
-#define CHAO_Y 220
+
 
 unsigned char collision_2D(Joker *element_first, Joker *element_second){
 
@@ -88,7 +87,10 @@ int main(){
 
 		if (event.type == 30){
 			update_position(player_1, player_2);																																						//O evento tipo 30 indica um evento de relógio, ou seja, verificação se a tela deve ser atualizada (conceito de FPS)
-			al_clear_to_color(al_map_rgb(0, 0, 0));																																						//Substitui tudo que estava desenhado na tela por um fundo preto
+			updateJokerPhysics(player_1);
+            updateJokerPhysics(player_2);
+			
+			al_clear_to_color(al_map_rgb(46, 12, 28));																																						//Substitui tudo que estava desenhado na tela por um fundo preto
 			al_draw_filled_rectangle(player_1->x-player_1->side_x/2, player_1->y-player_1->side_y/2, player_1->x+player_1->side_x/2, player_1->y+player_1->side_y/2, al_map_rgb(0, 255, 0));					//Insere o quadrado do primeiro jogador na tela
             al_draw_filled_rectangle(player_2->x-player_2->side_x/2, player_2->y-player_2->side_y/2, player_2->x+player_2->side_x/2, player_2->y+player_2->side_y/2, al_map_rgb(0, 0, 255));					//Insere o quadrado do segundo jogador na tela
     		al_flip_display();																																											//Insere as modificações realizadas nos buffers de tela
@@ -99,7 +101,6 @@ int main(){
             if (event.keyboard.keycode == 1) player_1->control->left  = pressed;
             else if (event.keyboard.keycode == 4) player_1->control->right = pressed;
             else if (event.keyboard.keycode == 23) player_1->control->jump  = pressed;
-
             /* PLAYER 1 - agachar enquanto tecla está pressionada */
             else if (event.keyboard.keycode == 19) {
                 if (pressed) {                 /* key down */
