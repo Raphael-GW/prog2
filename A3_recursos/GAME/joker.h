@@ -4,9 +4,6 @@
 #include "joystick.h"
 
 #define VIDA_JOKER 3
-#define JOKER_STEP 10
-#define V_JOKER_JUMP 0.5
-#define VEL_Y 0
 #define LARGURA_JOKER 20
 #define ALTURA_JOKER 50
 #define CHAO_Y 220
