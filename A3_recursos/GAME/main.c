@@ -10,9 +10,15 @@
 
 #include <stdio.h>																																														//Inclusão da biblioteca de quadrados
 
-#define X_SCREEN 640																																													//Definição do tamanho da tela em pixels no eixo x
-#define Y_SCREEN 320																																													//Definição do tamanho da tela em pixels no eixo y
+#define X_SCREEN 1024																																													//Definição do tamanho da tela em pixels no eixo x
+#define Y_SCREEN 720																																													//Definição do tamanho da tela em pixels no eixo y
+#define CHAO_Y (Y_SCREEN - 200)																																											//Definição da posição do chão no eixo y
 
+
+long aleat (long min, long max)
+{
+    return min + (rand () % ((max - min) + 1));
+}
 
 unsigned char collision_2D(Joker *element_first, Enemy *element_second){
 
@@ -111,7 +117,9 @@ int main(){
                     pe = create_entry(enemy, enemy->y);
                 }
 
-                if (enemy->x - enemy->side_x/2 <= 0) enemy->x = enemy->side_x/2;
+                if (enemy->x - enemy->side_x/2 <= 0){
+                    enemy->x = aleat (X_SCREEN, 2 * X_SCREEN);
+                }
                 else enemy->x -= ENEMY_SPEED;
                 if (!pe->in_air){
                     pe->vy = JUMP_VELOCITY_ENM;
@@ -151,6 +159,7 @@ int main(){
             } else {
                 al_clear_to_color(al_map_rgb(255, 0, 0));																																						//Substitui tudo que estava desenhado na tela por um fundo
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
+                al_draw_line (0, CHAO_Y + ALTURA_JOKER/2, X_SCREEN, CHAO_Y + ALTURA_JOKER/2, al_map_rgb(0, 0, 0), 2.0f); /* chão */
                 al_draw_filled_rectangle(player_1->x-player_1->side_x/2, player_1->y-player_1->side_y/2, player_1->x+player_1->side_x/2, player_1->y+player_1->side_y/2, al_map_rgb(0, 255, 0));					//Insere o quadrado do primeiro jogador na tela
                 al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));					//Insere o quadrado do segundo jogador na tela
             }
@@ -165,15 +174,11 @@ int main(){
             else if (event.keyboard.keycode == 23) player_1->control->jump  = pressed;
             /* PLAYER 1 - agachar enquanto tecla está pressionada */
             else if (event.keyboard.keycode == 19) {
-                if (pressed) {                 /* key down */
-                    player_1->control->down = 1;
-                    if(player_1->side_y == ALTURA_JOKER)
-                        player_1->side_y = ALTURA_JOKER / 2; /* reduz a altura enquanto agacha */
-                    player_1->side_y = player_1->side_y;
-                } else {                       /* key up */
+                if (pressed) player_1->control->down = pressed;
+                else {
                     player_1->control->down = 0;
-                    player_1->side_y = ALTURA_JOKER;   /* restaura altura original */
-                }
+                    moveJoker(player_1, -1, 3, X_SCREEN, Y_SCREEN);
+                } /* key up */
             }
 
             /* permite sair no game over apertando ESC */
