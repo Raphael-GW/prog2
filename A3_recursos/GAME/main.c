@@ -10,9 +10,15 @@
 
 #include <stdio.h>																																														//Inclusão da biblioteca de quadrados
 
-#define X_SCREEN 640																																													//Definição do tamanho da tela em pixels no eixo x
-#define Y_SCREEN 320																																													//Definição do tamanho da tela em pixels no eixo y
+#define X_SCREEN 1024																																													//Definição do tamanho da tela em pixels no eixo x
+#define Y_SCREEN 720																																													//Definição do tamanho da tela em pixels no eixo y
+#define CHAO_Y (Y_SCREEN - 200)																																											//Definição da posição do chão no eixo y
 
+
+long aleat (long min, long max)
+{
+    return min + (rand () % ((max - min) + 1));
+}
 
 unsigned char collision_2D(Joker *element_first, Enemy *element_second){
 
@@ -54,19 +60,26 @@ int main(){
     }
 
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0);
-    if (!timer) { fprintf(stderr, "failed to create timer\n"); return 1; }
+    if (!timer) {
+        fprintf(stderr, "failed to create timer\n"); 
+        return 1;
+    }
 
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
-    if (!queue) { fprintf(stderr, "failed to create event queue\n"); al_destroy_timer(timer); return 1; }
+    if (!queue) {
+        fprintf(stderr, "failed to create event queue\n"); al_destroy_timer(timer); 
+        return 1;
+    }
 
     ALLEGRO_DISPLAY* disp = al_create_display(X_SCREEN, Y_SCREEN);
-    if (!disp) { fprintf(stderr, "failed to create display\n"); al_destroy_event_queue(queue); al_destroy_timer(timer); return 1; }
-
-    ALLEGRO_FONT* font = al_load_ttf_font("P5font.TTF", 24, 0);
-    ALLEGRO_FONT* bigfont = al_load_ttf_font("P5font.TTF", 48, 0);
+    if (!disp) {
+        fprintf(stderr, "failed to create display\n"); al_destroy_event_queue(queue); al_destroy_timer(timer); 
+        return 1;
+    }
+    ALLEGRO_FONT* font = al_load_ttf_font("P5font.ttf", 24, 0);
+    ALLEGRO_FONT* bigfont = al_load_ttf_font("P5font.ttf", 48, 0);
     if (!font || !bigfont) {
-        fprintf(stderr, "failed to load font(s). Verifique se BRADHITC.TTF está no diretório do executável\n");
-        /* continua, mas sem fontes o desenho de texto irá falhar; prefira encerrar */
+        fprintf(stderr, "failed to load font(s).\n");
         al_destroy_display(disp);
         al_destroy_event_queue(queue);
         al_destroy_timer(timer);
@@ -79,7 +92,7 @@ int main(){
 
     Joker* player_1 = createJoker(20, ALTURA_JOKER, 10, CHAO_Y, X_SCREEN, Y_SCREEN);																															//Cria o quadrado do primeiro jogador
     if (!player_1) return 1;																																											//Verificação de erro na criação do quadrado do primeiro jogador
-    Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y, X_SCREEN, Y_SCREEN);																													//Cria o quadrado do segundo jogador
+    Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);																										//Cria o quadrado do segundo jogador
     if (!enemy) return 2;																																											//Verificação de erro na criação do quadrado do segundo jogador
 
     ALLEGRO_EVENT event;																																												//Variável que guarda um evento capturado, sua estrutura é definida em: https:		//www.allegro.cc/manual/5/ALLEGRO_EVENT
@@ -96,6 +109,22 @@ int main(){
             if (!game_over) {
                 /* atualiza inputs (movimentação) */
                 update_position(player_1);
+
+                // update posição do inimigo (simples movimento de anda e pula)
+                PhysicsEnemy *pe = find_entry(enemy);
+                if (!pe) {
+                /* se não existir entrada, cria com ground igual à posição atual */
+                    pe = create_entry(enemy, enemy->y);
+                }
+
+                if (enemy->x - enemy->side_x/2 <= 0){
+                    enemy->x = aleat (X_SCREEN, 2 * X_SCREEN);
+                }
+                else enemy->x -= ENEMY_SPEED;
+                if (!pe->in_air){
+                    pe->vy = JUMP_VELOCITY_ENM;
+                    pe->in_air = true;
+                }
 
                 /* decrementa cooldown se existir */
                 if (collision_cooldown > 0) collision_cooldown--;
@@ -118,6 +147,7 @@ int main(){
 
                 /* atualiza física do jogador */
                 updateJokerPhysics(player_1);
+                updateEnemyPhysics(enemy);
             }
 
             /* desenha cena */
@@ -129,6 +159,7 @@ int main(){
             } else {
                 al_clear_to_color(al_map_rgb(255, 0, 0));																																						//Substitui tudo que estava desenhado na tela por um fundo
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
+                al_draw_line (0, CHAO_Y + ALTURA_JOKER/2, X_SCREEN, CHAO_Y + ALTURA_JOKER/2, al_map_rgb(0, 0, 0), 2.0f); /* chão */
                 al_draw_filled_rectangle(player_1->x-player_1->side_x/2, player_1->y-player_1->side_y/2, player_1->x+player_1->side_x/2, player_1->y+player_1->side_y/2, al_map_rgb(0, 255, 0));					//Insere o quadrado do primeiro jogador na tela
                 al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));					//Insere o quadrado do segundo jogador na tela
             }
@@ -143,15 +174,11 @@ int main(){
             else if (event.keyboard.keycode == 23) player_1->control->jump  = pressed;
             /* PLAYER 1 - agachar enquanto tecla está pressionada */
             else if (event.keyboard.keycode == 19) {
-                if (pressed) {                 /* key down */
-                    player_1->control->down = 1;
-                    if(player_1->side_y == ALTURA_JOKER)
-                        player_1->side_y = ALTURA_JOKER / 2; /* reduz a altura enquanto agacha */
-                    player_1->side_y = player_1->side_y;
-                } else {                       /* key up */
+                if (pressed) player_1->control->down = pressed;
+                else {
                     player_1->control->down = 0;
-                    player_1->side_y = ALTURA_JOKER;   /* restaura altura original */
-                }
+                    moveJoker(player_1, -1, 3, X_SCREEN, Y_SCREEN);
+                } /* key up */
             }
 
             /* permite sair no game over apertando ESC */

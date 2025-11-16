@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include "joker.h"
 
@@ -37,6 +38,7 @@ Joker* createJoker(int side_x, int side_y, int x, int y, int X_SCREEN, int Y_SCR
     j->x = x;
     j->y = y;
     j->vida = VIDA_JOKER;
+    j->is_crouching = false;  /* começa sem agachar */
     j->control = joystick_create ();
     if (!j->control){
 
@@ -76,8 +78,23 @@ void moveJoker(Joker *j, int amount, int dir, int X_SCREEN, int Y_SCREEN){
         } else {
             /* undo jump: não precisa desfazer nada no caso de física */
         }
-    } else if (dir == 3){ /* down/crouch handled in main key handler - keep for compatibility */
-        /* nothing here; main.c already adjusts side_y on key press/release */
+    } else if (dir == 3){
+        /* agachar: amount > 0 = agachar, amount < 0 = levantar */
+        if (amount > 0){
+            /* inicia agachamento */
+            if (!j->is_crouching){
+                j->is_crouching = true;
+                j->side_y = (unsigned char)(ALTURA_JOKER / 2);  /* reduz altura */
+                j->y += ALTURA_JOKER / 4;      /* desce ligeiramente para manter pés no chão */
+            }
+        } else {
+            /* encerra agachamento */
+            if (j->is_crouching){
+                j->is_crouching = false;
+                j->y -= ALTURA_JOKER / 4;      /* sobe de volta */
+                j->side_y = (unsigned char)ALTURA_JOKER;      /* restaura altura original */
+            }
+        }
     }
 }
 
