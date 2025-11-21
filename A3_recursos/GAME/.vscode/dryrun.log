@@ -1,9 +1,0 @@
-make.exe --dry-run --always-make --keep-going --print-directory
-make.exe: Entering directory `c:/Users/rapha/OneDrive - ufpr.br/�rea de Trabalho/prog2/A3_recursos/GAME'
-gcc -Wall -g -IC:/msys64/ucrt64/bin/../include -c main.c
-gcc -Wall -g -IC:/msys64/ucrt64/bin/../include -c joker.c
-gcc -Wall -g -IC:/msys64/ucrt64/bin/../include -c joystick.c
-gcc -Wall -g -IC:/msys64/ucrt64/bin/../include -c enemy.c
-gcc -Wall -g -IC:/msys64/ucrt64/bin/../include -o game main.o joker.o joystick.o enemy.o -LC:/msys64/ucrt64/bin/../lib -lallegro_main -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro
-make.exe: Leaving directory `c:/Users/rapha/OneDrive - ufpr.br/�rea de Trabalho/prog2/A3_recursos/GAME'
- 

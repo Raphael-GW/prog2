@@ -1,8 +1,9 @@
 //Compilação: gcc AggressiveJokers.c joker.c joystick.c -o AS $(pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5 --libs --cflags) (!)
-
+#include <allegro5/allegro.h>																																												//Biblioteca base do Allegro
 #include <allegro5/allegro5.h>																																											//Biblioteca base do Allegro
 #include <allegro5/allegro_font.h>																																										//Biblioteca de fontes do Allegro
-#include <allegro5/allegro_primitives.h>																																								//Biblioteca de figuras básicas
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>																																								//Biblioteca de figuras básicas
 #include <allegro5/allegro_ttf.h>
 
 #include "joker.h"
@@ -10,9 +11,9 @@
 
 #include <stdio.h>																																														//Inclusão da biblioteca de quadrados
 
-#define X_SCREEN 1024																																													//Definição do tamanho da tela em pixels no eixo x
-#define Y_SCREEN 720																																													//Definição do tamanho da tela em pixels no eixo y
-#define CHAO_Y (Y_SCREEN - 200)																																											//Definição da posição do chão no eixo y
+#define X_SCREEN 512																																													//Definição do tamanho da tela em pixels no eixo x
+#define Y_SCREEN 512																																													//Definição do tamanho da tela em pixels no eixo y
+#define CHAO_Y (317 - ALTURA_JOKER/2)																																											//Definição da posição do chão no eixo y
 
 
 long aleat (long min, long max)
@@ -44,6 +45,8 @@ void update_position(Joker *player_1){																																				//Fun�
     }
 }
 
+
+
 int main(){
     if (!al_init()) {
         fprintf(stderr, "al_init failed\n");
@@ -53,6 +56,7 @@ int main(){
     al_init_primitives_addon();
     al_init_font_addon();
     al_init_ttf_addon();
+    al_init_image_addon();
 
     if (!al_install_keyboard()) {
         fprintf(stderr, "al_install_keyboard failed\n");
@@ -86,11 +90,23 @@ int main(){
         return 1;
     }
 
+    ALLEGRO_BITMAP *fase = al_load_bitmap("stage.bmp");
+    if (!fase) {
+        fprintf(stderr, "failed to load bitmap.\n");
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+    ALLEGRO_BITMAP *joker_sprite = al_load_bitmap("joker_sprite.bmp");
+
     al_register_event_source(queue, al_get_keyboard_event_source());																																	//Indica que eventos de teclado serão inseridos na nossa fila de eventos
     al_register_event_source(queue, al_get_display_event_source(disp));																																	//Indica que eventos de tela serão inseridos na nossa fila de eventos
     al_register_event_source(queue, al_get_timer_event_source(timer));																																	//Indica que eventos de relógio serão inseridos na nossa fila de eventos
 
-    Joker* player_1 = createJoker(20, ALTURA_JOKER, 10, CHAO_Y, X_SCREEN, Y_SCREEN);																															//Cria o quadrado do primeiro jogador
+    Joker* player_1 = createJoker(20, ALTURA_JOKER, 66, CHAO_Y, X_SCREEN, Y_SCREEN);																															//Cria o quadrado do primeiro jogador
     if (!player_1) return 1;																																											//Verificação de erro na criação do quadrado do primeiro jogador
     Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);																										//Cria o quadrado do segundo jogador
     if (!enemy) return 2;																																											//Verificação de erro na criação do quadrado do segundo jogador
@@ -107,6 +123,10 @@ int main(){
         if (event.type == 30){
             /* Atualizações ocorram apenas se não for game over */
             if (!game_over) {
+
+                al_draw_bitmap(fase, 0, 0, 0);
+                al_draw_bitmap(joker_sprite, player_1->x - player_1->side_x / 2, player_1->y - player_1->side_y / 2, 0);
+
                 /* atualiza inputs (movimentação) */
                 update_position(player_1);
 
@@ -157,9 +177,7 @@ int main(){
                 al_draw_textf(font, al_map_rgb(255,255,255), X_SCREEN / 2, 150, ALLEGRO_ALIGN_CENTRE, "Vida: %d", player_1->vida);
                 al_draw_text(font, al_map_rgb(255,255,255), X_SCREEN / 2, 200, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
             } else {
-                al_clear_to_color(al_map_rgb(255, 0, 0));																																						//Substitui tudo que estava desenhado na tela por um fundo
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
-                al_draw_line (0, CHAO_Y + ALTURA_JOKER/2, X_SCREEN, CHAO_Y + ALTURA_JOKER/2, al_map_rgb(0, 0, 0), 2.0f); /* chão */
                 al_draw_filled_rectangle(player_1->x-player_1->side_x/2, player_1->y-player_1->side_y/2, player_1->x+player_1->side_x/2, player_1->y+player_1->side_y/2, al_map_rgb(0, 255, 0));					//Insere o quadrado do primeiro jogador na tela
                 al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));					//Insere o quadrado do segundo jogador na tela
             }
