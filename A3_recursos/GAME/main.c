@@ -1,20 +1,23 @@
-//Compilação: gcc AggressiveJokers.c joker.c joystick.c -o AS $(pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_primitives-5 --libs --cflags) (!)
-#include <allegro5/allegro.h>																																												//Biblioteca base do Allegro
-#include <allegro5/allegro5.h>																																											//Biblioteca base do Allegro
-#include <allegro5/allegro_font.h>																																										//Biblioteca de fontes do Allegro
+// ...existing code...
+#include <allegro5/allegro.h>
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_image.h>																																								//Biblioteca de figuras básicas
+#include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
 
 #include "joker.h"
 #include "enemy.h"
 
-#include <stdio.h>																																														//Inclusão da biblioteca de quadrados
+#include <stdio.h>
 
-#define X_SCREEN 512																																													//Definição do tamanho da tela em pixels no eixo x
-#define Y_SCREEN 512																																													//Definição do tamanho da tela em pixels no eixo y
-#define CHAO_Y (317 - ALTURA_JOKER/2)																																											//Definição da posição do chão no eixo y
+#define X_SCREEN 1025
+#define Y_SCREEN 512
+#define CHAO_Y (317 - ALTURA_JOKER/2)
 
+/* Dimensões dos sprites na imagem */
+#define SPRITE_WIDTH 28
+#define SPRITE_HEIGHT 53
 
 long aleat (long min, long max)
 {
@@ -22,30 +25,36 @@ long aleat (long min, long max)
 }
 
 unsigned char collision_2D(Joker *element_first, Enemy *element_second){
-
-    if ((((element_first->x+element_first->side_x/2 >= element_second->x-element_second->side_x/2) && (element_second->x-element_second->side_x/2 >= element_first->x-element_first->side_x/2)) || 	//			//Verifica se o primeiro elemento colidiu com o segundo no eixo X			
-        ((element_second->x+element_second->side_x/2 >= element_first->x-element_first->side_x/2) && (element_first->x-element_first->side_x/2 >= element_second->x-element_second->side_x/2))) && 	//			//Verifica se o segundo elemento colidiu com o primeiro no eixo X
-        (((element_first->y+element_first->side_y/2 >= element_second->y-element_second->side_y/2) && (element_second->y-element_second->side_y/2 >= element_first->y-element_first->side_y/2)) || 	//			//Verifica se o primeiro elemento colidiu com o segundo no eixo Y
-        ((element_second->y+element_second->side_y/2 >= element_first->y-element_first->side_y/2) && (element_first->y-element_first->side_y/2 >= element_second->y-element_second->side_y/2)))) return 1;		//Verifica se o segundo elemento colidiu com o primeiro no eixo Y
+    if ((((element_first->x+element_first->side_x/2 >= element_second->x-element_second->side_x/2) && (element_second->x-element_second->side_x/2 >= element_first->x-element_first->side_x/2)) || 	
+        ((element_second->x+element_second->side_x/2 >= element_first->x-element_first->side_x/2) && (element_first->x-element_first->side_x/2 >= element_second->x-element_second->side_x/2))) && 	
+        (((element_first->y+element_first->side_y/2 >= element_second->y-element_second->side_y/2) && (element_second->y-element_second->side_y/2 >= element_first->y-element_first->side_y/2)) || 	
+        ((element_second->y+element_second->side_y/2 >= element_first->y-element_first->side_y/2) && (element_first->y-element_first->side_y/2 >= element_second->y-element_second->side_y/2)))) return 1;
     else return 0;
 }
 
-void update_position(Joker *player_1){																																				//Função de atualização das posições dos quadrados conforme os comandos do controle (!)
-    if (player_1->control->left){																																										//Se o botão de movimentação para esquerda do controle do primeiro jogador está ativado... (!)
-        moveJoker(player_1, 1, 0, X_SCREEN, Y_SCREEN);																																				//Move o quadrado do primeiro jogador para a esquerda (!)
+int background_x = 0;
+void update_position(Joker *player_1){
+    int half = player_1->side_x / 2;
+    /* permite mover o jogador livremente dentro da tela (entre half e X_SCREEN-half) */
+    if (player_1->control->left){
+        if (player_1->x > half) {
+            moveJoker(player_1, 1, 0, X_SCREEN, Y_SCREEN);
+            player_1->flip = true;
+        }
     }
-    if (player_1->control->right){																																										//Se o botão de movimentação para direita do controle do primeir ojogador está ativado... (!)
-        moveJoker(player_1, 1, 1, X_SCREEN, Y_SCREEN);																																				//Move o quadrado do primeiro jogador para a direta (!)
+    if (player_1->control->right){
+        if (player_1->x < X_SCREEN - half) {
+            moveJoker(player_1, 1, 1, X_SCREEN, Y_SCREEN);
+            player_1->flip = false;
+        }
     }
-    if (player_1->control->jump) {																																										//Se o botão de movimentação para cima do controle do primeiro jogador está ativado... (!)
-        moveJoker(player_1, 1, 2, X_SCREEN, Y_SCREEN);																																				//Move o quadrado do primeiro jogador para cima (!)
+    if (player_1->control->jump) {
+        moveJoker(player_1, 1, 2, X_SCREEN, Y_SCREEN);
     }
-    if (player_1->control->down){																																										//Se o botão de movimentação para baixo do controle do primeiro jogador está ativado... (!)
-        moveJoker(player_1, 1, 3, X_SCREEN, Y_SCREEN);																																				//Move o quadrado do primeiro jogador para a baixo (!)
+    if (player_1->control->down){
+        moveJoker(player_1, 1, 3, X_SCREEN, Y_SCREEN);
     }
 }
-
-
 
 int main(){
     if (!al_init()) {
@@ -100,40 +109,134 @@ int main(){
         al_destroy_timer(timer);
         return 1;
     }
-    ALLEGRO_BITMAP *joker_sprite = al_load_bitmap("joker_sprite.bmp");
+    
+    ALLEGRO_BITMAP *joker_sprite_sheet = al_load_bitmap("joker_sprite.bmp");
+    if (!joker_sprite_sheet) {
+        fprintf(stderr, "failed to load joker sprite sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
 
-    al_register_event_source(queue, al_get_keyboard_event_source());																																	//Indica que eventos de teclado serão inseridos na nossa fila de eventos
-    al_register_event_source(queue, al_get_display_event_source(disp));																																	//Indica que eventos de tela serão inseridos na nossa fila de eventos
-    al_register_event_source(queue, al_get_timer_event_source(timer));																																	//Indica que eventos de relógio serão inseridos na nossa fila de eventos
+    /* Extrai sub-bitmaps de cada sprite (parado direita, parado esquerda, pulando, agachando) */
+    ALLEGRO_BITMAP *sprite_idle_right = al_create_sub_bitmap(joker_sprite_sheet, 25, 190, SPRITE_WIDTH, SPRITE_HEIGHT);
+    ALLEGRO_BITMAP *sprite_idle_left = al_create_sub_bitmap(joker_sprite_sheet, SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+    ALLEGRO_BITMAP *sprite_jump = al_create_sub_bitmap(joker_sprite_sheet, 16, 122, SPRITE_WIDTH, SPRITE_HEIGHT);
+    ALLEGRO_BITMAP *sprite_crouch = al_create_sub_bitmap(joker_sprite_sheet, SPRITE_WIDTH, SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT);
 
-    Joker* player_1 = createJoker(20, ALTURA_JOKER, 66, CHAO_Y, X_SCREEN, Y_SCREEN);																															//Cria o quadrado do primeiro jogador
-    if (!player_1) return 1;																																											//Verificação de erro na criação do quadrado do primeiro jogador
-    Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);																										//Cria o quadrado do segundo jogador
-    if (!enemy) return 2;																																											//Verificação de erro na criação do quadrado do segundo jogador
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    al_register_event_source(queue, al_get_display_event_source(disp));
+    al_register_event_source(queue, al_get_timer_event_source(timer));
 
-    ALLEGRO_EVENT event;																																												//Variável que guarda um evento capturado, sua estrutura é definida em: https:		//www.allegro.cc/manual/5/ALLEGRO_EVENT
-    al_start_timer(timer);																																												//Função que inicializa o relógio do programa
+    Joker* player_1 = createJoker(20, ALTURA_JOKER, 66, CHAO_Y, X_SCREEN, Y_SCREEN);
+    if (!player_1) return 1;
+    Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    if (!enemy) return 2;
+    Enemy* enemy_2 = createEnemy(10, ALTURA_ENEMY+10, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    if (!enemy_2) return 2;
+    Enemy* enemy_3 = createEnemy(20, ALTURA_ENEMY+50, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    if (!enemy_3) return 2;
+    Enemy* enemy_4 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    if (!enemy_4) return 2;
+    Enemy* enemy_5 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    if (!enemy_5) return 2;
+    Enemy* enemy_6 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    if (!enemy_6) return 2;
 
-    int collision_cooldown = 0; /* frames de invulnerabilidade após levar dano (ex: 30 = 1s) */
+    ALLEGRO_EVENT event;
+    al_start_timer(timer);
+
+    int collision_cooldown = 0;
     int game_over = 0;
+    int menu = 1;
+    int bg_w = al_get_bitmap_width(fase);
+    int min_background_x = X_SCREEN - bg_w;
+    int win = 0;
 
-    while(1){																																															//Laço principal do programa
-        al_wait_for_event(queue, &event);																																								//Função que captura eventos da fila, inserindo os mesmos na variável de eventos
 
-        if (event.type == 30){
-            /* Atualizações ocorram apenas se não for game over */
+    while(1){
+        al_wait_for_event(queue, &event);
+        while (menu) {
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            al_draw_text(bigfont, al_map_rgb(255, 255, 255), X_SCREEN / 2, 150, ALLEGRO_ALIGN_CENTRE, "Prog2 - Game");
+            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 250, ALLEGRO_ALIGN_CENTRE, "Pressione ENTER para iniciar");
+            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 350, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
+            al_flip_display();
+
+            al_wait_for_event(queue, &event);
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+                menu = 0;
+            }
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                return 0;
+            }
+        }
+        if (win){
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            al_draw_text(bigfont, al_map_rgb(0, 255, 0), X_SCREEN / 2, 150, ALLEGRO_ALIGN_CENTRE, "VICTORY!!");
+            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 350, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
+            al_flip_display();
+
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                return 0;
+            }
+        }
+        if (event.type == 30 && !win){
             if (!game_over) {
-
-                al_draw_bitmap(fase, 0, 0, 0);
-                al_draw_bitmap(joker_sprite, player_1->x - player_1->side_x / 2, player_1->y - player_1->side_y / 2, 0);
-
-                /* atualiza inputs (movimentação) */
                 update_position(player_1);
 
-                // update posição do inimigo (simples movimento de anda e pula)
+                if (player_1->x >= X_SCREEN - 100) {
+                    win = 1;
+                }
+                
+                
+                
+                /* quando jogador ultrapassa x=400 e ainda há mapa à direita, scrolla e trava x em 400 */
+                if (player_1->x >= 400 && player_1->control->right && background_x > min_background_x) {
+                    background_x -= 7;
+                    if (background_x < min_background_x) background_x = min_background_x;
+                    player_1->x = 400;
+                }
+                /* quando jogador vai para a esquerda e há mapa à esquerda, scrolla para direita e trava x em 400 */
+                else if (player_1->x <= 400 && player_1->control->left && background_x < 0) {
+                    background_x += 7;
+                    if (background_x > 0) background_x = 0;
+                    player_1->x = 400;
+                }
+                
+                al_draw_bitmap(fase, background_x, 0, 0);
+
+                /* Seleciona o sprite correto baseado no estado do player */
+                ALLEGRO_BITMAP *current_sprite;
+                int flags = 0;
+                
+                if (player_1->is_crouching) {
+                    current_sprite = sprite_crouch;
+                } else if (player_1->control->jump) {
+                    current_sprite = sprite_jump;
+                } else if (player_1->flip) {
+                    current_sprite = sprite_idle_left;
+                } else {
+                    current_sprite = sprite_idle_right;
+                }
+                
+                /* Desenha o sprite na posição do player */
+                al_draw_scaled_bitmap(current_sprite, 
+                    0, 0, SPRITE_WIDTH, SPRITE_HEIGHT,
+                    player_1->x - player_1->side_x / 2, 
+                    player_1->y - player_1->side_y / 2,
+                    player_1->side_x, 
+                    player_1->side_y,
+                    flags);
+                
+                
+
                 PhysicsEnemy *pe = find_entry(enemy);
                 if (!pe) {
-                /* se não existir entrada, cria com ground igual à posição atual */
                     pe = create_entry(enemy, enemy->y);
                 }
 
@@ -141,20 +244,18 @@ int main(){
                     enemy->x = aleat (X_SCREEN, 2 * X_SCREEN);
                 }
                 else enemy->x -= ENEMY_SPEED;
+                
                 if (!pe->in_air){
                     pe->vy = JUMP_VELOCITY_ENM;
                     pe->in_air = true;
                 }
 
-                /* decrementa cooldown se existir */
                 if (collision_cooldown > 0) collision_cooldown--;
 
-                // verifica colisão e aplica dano + recuo 3 passos (com cooldown)
                 if (collision_2D(player_1, enemy) && collision_cooldown == 0) {
                     player_1->vida--;
-                    collision_cooldown = 30; /* 1 segundo de invulnerabilidade */
+                    collision_cooldown = 30;
 
-                    /* recuo de 3 passos para a esquerda (chama moveJoker 3x com passo simples) */
                     for (int i = 0; i < 3; ++i) {
                         moveJoker(player_1, 1, 0, X_SCREEN, Y_SCREEN);
                     }
@@ -165,12 +266,10 @@ int main(){
                     }
                 }
 
-                /* atualiza física do jogador */
                 updateJokerPhysics(player_1);
                 updateEnemyPhysics(enemy);
             }
 
-            /* desenha cena */
             if (game_over) {
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 al_draw_text(bigfont, al_map_rgb(255, 0, 0), X_SCREEN / 2, 90, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
@@ -178,43 +277,46 @@ int main(){
                 al_draw_text(font, al_map_rgb(255,255,255), X_SCREEN / 2, 200, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
             } else {
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
-                al_draw_filled_rectangle(player_1->x-player_1->side_x/2, player_1->y-player_1->side_y/2, player_1->x+player_1->side_x/2, player_1->y+player_1->side_y/2, al_map_rgb(0, 255, 0));					//Insere o quadrado do primeiro jogador na tela
-                al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));					//Insere o quadrado do segundo jogador na tela
+                al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));
             }
 
-            al_flip_display();																																											//Insere as modificações realizadas nos buffers de tela
+            al_flip_display();
         }
-        else if ((event.type == 10) || (event.type == 12)){																																				//Verifica se o evento é de botão do teclado abaixado ou levantado (!)
+        else if ((event.type == 10) || (event.type == 12)){
             int pressed = (event.type == 10);
 
             if (event.keyboard.keycode == 1) player_1->control->left  = pressed;
             else if (event.keyboard.keycode == 4) player_1->control->right = pressed;
             else if (event.keyboard.keycode == 23) player_1->control->jump  = pressed;
-            /* PLAYER 1 - agachar enquanto tecla está pressionada */
             else if (event.keyboard.keycode == 19) {
                 if (pressed) player_1->control->down = pressed;
                 else {
                     player_1->control->down = 0;
                     moveJoker(player_1, -1, 3, X_SCREEN, Y_SCREEN);
-                } /* key up */
+                }
             }
 
-            /* permite sair no game over apertando ESC */
-            if (game_over && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && !pressed) { /* ESC key up */
+            if (game_over && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && !pressed) {
                 break;
             }
-
         }
-        else if (event.type == 42) break;																																								//Evento de clique no "X" de fechamento da tela. Encerra o programa graciosamente.
+        else if (event.type == 42) break;
     }
 
     deleteEnemy (enemy);
     deleteJoker (player_1);
-    al_destroy_font(font);																																												//Destrutor da fonte padrão
+    al_destroy_bitmap(sprite_idle_right);
+    al_destroy_bitmap(sprite_idle_left);
+    al_destroy_bitmap(sprite_jump);
+    al_destroy_bitmap(sprite_crouch);
+    al_destroy_bitmap(joker_sprite_sheet);
+    al_destroy_bitmap(fase);
+    al_destroy_font(font);
     al_destroy_font(bigfont);
-    al_destroy_display(disp);																																											//Destrutor da tela
-    al_destroy_timer(timer);																																											//Destrutor do relógio
-    al_destroy_event_queue(queue);																																										//Destrutor da fila
+    al_destroy_display(disp);
+    al_destroy_timer(timer);
+    al_destroy_event_queue(queue);
 
     return 0;
 }
+// ...existing code...

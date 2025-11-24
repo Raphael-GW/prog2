@@ -39,6 +39,7 @@ Joker* createJoker(int side_x, int side_y, int x, int y, int X_SCREEN, int Y_SCR
     j->y = y;
     j->vida = VIDA_JOKER;
     j->is_crouching = false;  /* começa sem agachar */
+    j->flip = false;
     j->control = joystick_create ();
     if (!j->control){
 
