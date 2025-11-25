@@ -6,7 +6,7 @@
 #define LARGURA_ENEMY 20
 #define ENEMY_SPEED 3
 #define GRAVITY 0.8f
-#define JUMP_VELOCITY_ENM -8.0f
+#define JUMP_VELOCITY_ENM -12.0f
 
 typedef struct {
     unsigned char side_x;					//Tamanho da lateral de um quadrado

@@ -1,4 +1,3 @@
-// ...existing code...
 #include <allegro5/allegro.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
@@ -99,7 +98,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *fase = al_load_bitmap("stage.bmp");
+    ALLEGRO_BITMAP *fase = al_load_bitmap("stage.png");
     if (!fase) {
         fprintf(stderr, "failed to load bitmap.\n");
         al_destroy_font(font);
@@ -136,11 +135,11 @@ int main(){
     if (!player_1) return 1;
     Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy) return 2;
-    Enemy* enemy_2 = createEnemy(10, ALTURA_ENEMY+10, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    Enemy* enemy_2 = createEnemy(10, ALTURA_ENEMY+10, aleat(X_SCREEN+30, 2*X_SCREEN), CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy_2) return 2;
-    Enemy* enemy_3 = createEnemy(20, ALTURA_ENEMY+50, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    Enemy* enemy_3 = createEnemy(20, ALTURA_ENEMY+50, aleat(X_SCREEN+50, 2*X_SCREEN), CHAO_Y-62, X_SCREEN, Y_SCREEN);
     if (!enemy_3) return 2;
-    Enemy* enemy_4 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    Enemy* enemy_4 = createEnemy(90, 10, aleat(X_SCREEN+75, 2*X_SCREEN), CHAO_Y, X_SCREEN, Y_SCREEN);
     if (!enemy_4) return 2;
     Enemy* enemy_5 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy_5) return 2;
@@ -198,14 +197,20 @@ int main(){
                 /* quando jogador ultrapassa x=400 e ainda há mapa à direita, scrolla e trava x em 400 */
                 if (player_1->x >= 400 && player_1->control->right && background_x > min_background_x) {
                     background_x -= 7;
+                    enemy_2->x -= 7;
+                    enemy_3->x -= 7;
+                    enemy_4->x -= 7;
                     if (background_x < min_background_x) background_x = min_background_x;
                     player_1->x = 400;
                 }
                 /* quando jogador vai para a esquerda e há mapa à esquerda, scrolla para direita e trava x em 400 */
                 else if (player_1->x <= 400 && player_1->control->left && background_x < 0) {
                     background_x += 7;
+                    enemy_2->x += 7;
+                    enemy_3->x += 7;
+                    enemy_4->x += 7;
                     if (background_x > 0) background_x = 0;
-                    player_1->x = 400;
+                    
                 }
                 
                 al_draw_bitmap(fase, background_x, 0, 0);
@@ -225,14 +230,14 @@ int main(){
                 }
                 
                 /* Desenha o sprite na posição do player */
-                al_draw_scaled_bitmap(current_sprite, 
-                    0, 0, SPRITE_WIDTH, SPRITE_HEIGHT,
-                    player_1->x - player_1->side_x / 2, 
-                    player_1->y - player_1->side_y / 2,
-                    player_1->side_x, 
-                    player_1->side_y,
-                    flags);
-                
+                al_draw_scaled_bitmap(current_sprite,
+                                      0, 0,
+                                      SPRITE_WIDTH, SPRITE_HEIGHT,
+                                      player_1->x - player_1->side_x / 2,
+                                      player_1->y - player_1->side_y / 2,
+                                      player_1->side_x,
+                                      player_1->side_y,
+                                      flags);
                 
 
                 PhysicsEnemy *pe = find_entry(enemy);
@@ -244,6 +249,30 @@ int main(){
                     enemy->x = aleat (X_SCREEN, 2 * X_SCREEN);
                 }
                 else enemy->x -= ENEMY_SPEED;
+
+                if ((int)enemy_2->x - (int)enemy_2->side_x/2 <= 0){
+                    enemy_2->x = X_SCREEN+520;
+                }
+                
+                if ((int)enemy_3->x - (int)enemy_3->side_x/2 <= 0){
+                    enemy_3->x = aleat (X_SCREEN, 2 * X_SCREEN);
+                }
+
+                printf("Posicao inimigo_4: %d\n", (int)enemy_4->x);
+                if ((int)enemy_4->x <= 0){
+                    enemy_4->x = X_SCREEN+750;
+                }
+
+                else{
+                    enemy_4->side_x -= 1;
+                    if (enemy_4->side_x < 1){
+                        int hole_cooldown = 60;
+                        while (hole_cooldown > 0){
+                            hole_cooldown--;
+                        }
+                        enemy_4->side_x = 70;
+                    }
+                }
                 
                 if (!pe->in_air){
                     pe->vy = JUMP_VELOCITY_ENM;
@@ -252,7 +281,7 @@ int main(){
 
                 if (collision_cooldown > 0) collision_cooldown--;
 
-                if (collision_2D(player_1, enemy) && collision_cooldown == 0) {
+                if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4)) && collision_cooldown == 0) {
                     player_1->vida--;
                     collision_cooldown = 30;
 
@@ -278,6 +307,9 @@ int main(){
             } else {
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
                 al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(enemy_2->x-enemy_2->side_x/2, enemy_2->y-enemy_2->side_y/2, enemy_2->x+enemy_2->side_x/2, enemy_2->y+enemy_2->side_y/2, al_map_rgb(0, 255, 0));
+                al_draw_filled_rectangle(enemy_3->x-enemy_3->side_x/2, enemy_3->y-enemy_3->side_y/2, enemy_3->x+enemy_3->side_x/2, enemy_3->y+enemy_3->side_y/2, al_map_rgb(200, 150, 0));
+                al_draw_filled_rectangle(enemy_4->x-enemy_4->side_x/2, enemy_4->y-enemy_4->side_y/2, enemy_4->x+enemy_4->side_x/2, enemy_4->y+enemy_4->side_y/2, al_map_rgb(0, 0, 0));
             }
 
             al_flip_display();
@@ -304,6 +336,7 @@ int main(){
     }
 
     deleteEnemy (enemy);
+    deleteEnemy (enemy_2);
     deleteJoker (player_1);
     al_destroy_bitmap(sprite_idle_right);
     al_destroy_bitmap(sprite_idle_left);
