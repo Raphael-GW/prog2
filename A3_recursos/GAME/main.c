@@ -109,7 +109,7 @@ int main(){
         return 1;
     }
     
-    ALLEGRO_BITMAP *joker_sprite_sheet = al_load_bitmap("joker_sprite.bmp");
+    ALLEGRO_BITMAP *joker_sprite_sheet = al_load_bitmap("joker_sprite.png");
     if (!joker_sprite_sheet) {
         fprintf(stderr, "failed to load joker sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -139,7 +139,7 @@ int main(){
     if (!enemy_2) return 2;
     Enemy* enemy_3 = createEnemy(20, ALTURA_ENEMY+50, aleat(X_SCREEN+50, 2*X_SCREEN), CHAO_Y-62, X_SCREEN, Y_SCREEN);
     if (!enemy_3) return 2;
-    Enemy* enemy_4 = createEnemy(90, 10, aleat(X_SCREEN+75, 2*X_SCREEN), CHAO_Y, X_SCREEN, Y_SCREEN);
+    Enemy* enemy_4 = createEnemy(100, 10, aleat(X_SCREEN+90, 2*X_SCREEN), CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2) + 15, X_SCREEN, Y_SCREEN);
     if (!enemy_4) return 2;
     Enemy* enemy_5 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy_5) return 2;
@@ -258,8 +258,7 @@ int main(){
                     enemy_3->x = aleat (X_SCREEN, 2 * X_SCREEN);
                 }
 
-                printf("Posicao inimigo_4: %d\n", (int)enemy_4->x);
-                if ((int)enemy_4->x <= 0){
+                if ((int)enemy_4->x - (int)enemy_4->side_x/2 <= 0){
                     enemy_4->x = X_SCREEN+750;
                 }
 
