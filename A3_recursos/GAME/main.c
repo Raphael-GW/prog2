@@ -155,6 +155,7 @@ int main(){
     int bg_w = al_get_bitmap_width(fase);
     int min_background_x = X_SCREEN - bg_w;
     int win = 0;
+    int up_down = 6;
 
 
     while(1){
@@ -200,6 +201,7 @@ int main(){
                     enemy_2->x -= 7;
                     enemy_3->x -= 7;
                     enemy_4->x -= 7;
+                    enemy_5->x -= 7;
                     if (background_x < min_background_x) background_x = min_background_x;
                     player_1->x = 400;
                 }
@@ -209,6 +211,7 @@ int main(){
                     enemy_2->x += 7;
                     enemy_3->x += 7;
                     enemy_4->x += 7;
+                    enemy_5->x += 7;
                     if (background_x > 0) background_x = 0;
                     
                 }
@@ -272,6 +275,19 @@ int main(){
                         enemy_4->side_x = 70;
                     }
                 }
+
+                if ((int)enemy_5->x - (int)enemy_5->side_x/2 <= 0){
+                    enemy_5->x = aleat (X_SCREEN, 2 * X_SCREEN);
+                }
+
+
+                enemy_5->y += up_down;
+                if ((int)enemy_5->y + (int)enemy_5->side_y/2 >= CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2)){
+                    up_down *= -1;
+                }
+                if ((int)enemy_5->y - (int)enemy_5->side_y/2 <= CHAO_Y-100){
+                    up_down *= -1;
+                }
                 
                 if (!pe->in_air){
                     pe->vy = JUMP_VELOCITY_ENM;
@@ -280,7 +296,7 @@ int main(){
 
                 if (collision_cooldown > 0) collision_cooldown--;
 
-                if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4)) && collision_cooldown == 0) {
+                if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4) || collision_2D (player_1, enemy_5)) && collision_cooldown == 0) {
                     player_1->vida--;
                     collision_cooldown = 30;
 
@@ -309,6 +325,7 @@ int main(){
                 al_draw_filled_rectangle(enemy_2->x-enemy_2->side_x/2, enemy_2->y-enemy_2->side_y/2, enemy_2->x+enemy_2->side_x/2, enemy_2->y+enemy_2->side_y/2, al_map_rgb(0, 255, 0));
                 al_draw_filled_rectangle(enemy_3->x-enemy_3->side_x/2, enemy_3->y-enemy_3->side_y/2, enemy_3->x+enemy_3->side_x/2, enemy_3->y+enemy_3->side_y/2, al_map_rgb(200, 150, 0));
                 al_draw_filled_rectangle(enemy_4->x-enemy_4->side_x/2, enemy_4->y-enemy_4->side_y/2, enemy_4->x+enemy_4->side_x/2, enemy_4->y+enemy_4->side_y/2, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(enemy_5->x-enemy_5->side_x/2, enemy_5->y-enemy_5->side_y/2, enemy_5->x+enemy_5->side_x/2, enemy_5->y+enemy_5->side_y/2, al_map_rgb(0, 255, 255));
             }
 
             al_flip_display();
