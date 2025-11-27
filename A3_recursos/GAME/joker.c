@@ -65,7 +65,7 @@ void moveJoker(Joker *j, int amount, int dir, int X_SCREEN, int Y_SCREEN){
     }
 
     if (dir == 0){ /* left */
-        if (j->x - j->side_x/2 <= 0) j->x = j->side_x/2;
+        if (j->x - j->side_x/2 <= 80) j->x = 80+j->side_x/2;
         else j->x -= HORIZONTAL_SPEED * (amount>0?1:-1);
     } else if (dir == 1){ /* right */
         if (j->x + j->side_x/2 >= X_SCREEN) j->x = X_SCREEN - j->side_x/2;

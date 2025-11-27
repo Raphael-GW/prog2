@@ -4,19 +4,20 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
-
+#include <stdio.h>
+#include <math.h>
 #include "joker.h"
 #include "enemy.h"
 
-#include <stdio.h>
+
 
 #define X_SCREEN 1025
 #define Y_SCREEN 512
 #define CHAO_Y (317 - ALTURA_JOKER/2)
 
 /* Dimensões dos sprites na imagem */
-#define SPRITE_WIDTH 28
-#define SPRITE_HEIGHT 53
+#define SPRITE_WIDTH 30
+#define SPRITE_HEIGHT 52
 
 long aleat (long min, long max)
 {
@@ -121,17 +122,12 @@ int main(){
         return 1;
     }
 
-    /* Extrai sub-bitmaps de cada sprite (parado direita, parado esquerda, pulando, agachando) */
-    ALLEGRO_BITMAP *sprite_idle_right = al_create_sub_bitmap(joker_sprite_sheet, 25, 190, SPRITE_WIDTH, SPRITE_HEIGHT);
-    ALLEGRO_BITMAP *sprite_idle_left = al_create_sub_bitmap(joker_sprite_sheet, SPRITE_WIDTH, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
-    ALLEGRO_BITMAP *sprite_jump = al_create_sub_bitmap(joker_sprite_sheet, 16, 122, SPRITE_WIDTH, SPRITE_HEIGHT);
-    ALLEGRO_BITMAP *sprite_crouch = al_create_sub_bitmap(joker_sprite_sheet, SPRITE_WIDTH, SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT);
 
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
 
-    Joker* player_1 = createJoker(20, ALTURA_JOKER, 66, CHAO_Y, X_SCREEN, Y_SCREEN);
+    Joker* player_1 = createJoker(SPRITE_WIDTH, ALTURA_JOKER, 100, CHAO_Y, X_SCREEN, Y_SCREEN);
     if (!player_1) return 1;
     Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy) return 2;
@@ -141,9 +137,9 @@ int main(){
     if (!enemy_3) return 2;
     Enemy* enemy_4 = createEnemy(100, 10, aleat(X_SCREEN+90, 2*X_SCREEN), CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2) + 15, X_SCREEN, Y_SCREEN);
     if (!enemy_4) return 2;
-    Enemy* enemy_5 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    Enemy* enemy_5 = createEnemy(20, ALTURA_ENEMY, aleat(X_SCREEN+110, 2*X_SCREEN), CHAO_Y-37, X_SCREEN, Y_SCREEN);
     if (!enemy_5) return 2;
-    Enemy* enemy_6 = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    Enemy* enemy_6 = createEnemy(50, ALTURA_ENEMY+82, aleat(X_SCREEN+150, 2*X_SCREEN), CHAO_Y-30, X_SCREEN, Y_SCREEN);
     if (!enemy_6) return 2;
 
     ALLEGRO_EVENT event;
@@ -155,8 +151,25 @@ int main(){
     int bg_w = al_get_bitmap_width(fase);
     int min_background_x = X_SCREEN - bg_w;
     int win = 0;
-    int up_down = 6;
+    float enemy5_phase = 0.0f;
+    const float enemy5_amp = 50.0f; /* amplitude em pixels (ajuste conforme desejar) */
+    const float enemy5_speed = 0.08f; /* velocidade angular (ajuste para mais/menos suavidade) */
+    int enemy5_base_y = enemy_5->y; /* posição central para oscilar */
 
+    const int ladder_offset_x = -50;    /* conforme pedido: "mesma posição do enemy_6 - 150" */
+    const int ladder_w = 24;             /* largura da escada (ajuste se quiser) */
+    const int ladder_h = 220;            /* altura da escada (ajuste se quiser) */
+    const int ladder_climb_speed = 8;    /* pixels por frame enquanto sobe */
+    int w_pressed = 0;                   /* estado da tecla W (1 = pressionada) */
+    int ladder_x = enemy_6->x + ladder_offset_x;
+    int ladder_y_bottom =  CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2);        /* base da escada alinhada ao chão */
+    int ladder_y_top = ladder_y_bottom - ladder_h;
+
+    // variaveis frame
+    float frame = 0.f;
+    int max_frame = 4;
+    //int pos_x = 0, pos_y = 0;
+    int current_frame_y = 27;
 
     while(1){
         al_wait_for_event(queue, &event);
@@ -198,50 +211,60 @@ int main(){
                 /* quando jogador ultrapassa x=400 e ainda há mapa à direita, scrolla e trava x em 400 */
                 if (player_1->x >= 400 && player_1->control->right && background_x > min_background_x) {
                     background_x -= 7;
+                    enemy->x -= 6;
                     enemy_2->x -= 7;
                     enemy_3->x -= 7;
                     enemy_4->x -= 7;
                     enemy_5->x -= 7;
+                    enemy_6->x -= 6;
                     if (background_x < min_background_x) background_x = min_background_x;
                     player_1->x = 400;
                 }
                 /* quando jogador vai para a esquerda e há mapa à esquerda, scrolla para direita e trava x em 400 */
                 else if (player_1->x <= 400 && player_1->control->left && background_x < 0) {
                     background_x += 7;
+                    enemy->x += 6;
                     enemy_2->x += 7;
                     enemy_3->x += 7;
                     enemy_4->x += 7;
                     enemy_5->x += 7;
+                    enemy_6->x += 6;
                     if (background_x > 0) background_x = 0;
                     
                 }
                 
                 al_draw_bitmap(fase, background_x, 0, 0);
 
-                /* Seleciona o sprite correto baseado no estado do player */
-                ALLEGRO_BITMAP *current_sprite;
-                int flags = 0;
-                
-                if (player_1->is_crouching) {
-                    current_sprite = sprite_crouch;
-                } else if (player_1->control->jump) {
-                    current_sprite = sprite_jump;
-                } else if (player_1->flip) {
-                    current_sprite = sprite_idle_left;
-                } else {
-                    current_sprite = sprite_idle_right;
+                /* Atualiza posição da escada com base em enemy_6 */
+                ladder_x = enemy_6->x + ladder_offset_x;
+                ladder_y_bottom = CHAO_Y;
+                ladder_y_top = ladder_y_bottom - ladder_h;
+
+                /* Verifica se o jogador está "encostado" na escada (colisão AABB) */
+                int px1 = player_1->x - player_1->side_x/2;
+                int py1 = player_1->y - player_1->side_y/2;
+                int px2 = player_1->x + player_1->side_x/2;
+                int py2 = player_1->y + player_1->side_y/2;
+                int lx1 = ladder_x - ladder_w/2;
+                int ly1 = ladder_y_top;
+                int lx2 = ladder_x + ladder_w/2;
+                int ly2 = ladder_y_bottom;
+
+                int touching_ladder = !(px2 < lx1 || px1 > lx2 || py2 < ly1 || py1 > ly2);
+
+                /* Se estiver encostado e W for pressionado, sobe ao invés de pular */
+                if (touching_ladder && w_pressed) {
+                    /* anula o pulo normal */
+                    if (player_1->control) player_1->control->jump = 0;
+                    /* sobe suavemente */
+                    player_1->y -= ladder_climb_speed;
+                    /* não passar do topo da escada */
+                    
                 }
-                
-                /* Desenha o sprite na posição do player */
-                al_draw_scaled_bitmap(current_sprite,
-                                      0, 0,
-                                      SPRITE_WIDTH, SPRITE_HEIGHT,
-                                      player_1->x - player_1->side_x / 2,
-                                      player_1->y - player_1->side_y / 2,
-                                      player_1->side_x,
-                                      player_1->side_y,
-                                      flags);
-                
+
+                //atualiza o frame
+                frame += 0.3f;
+                if (frame > max_frame) frame -= max_frame;
 
                 PhysicsEnemy *pe = find_entry(enemy);
                 if (!pe) {
@@ -280,14 +303,14 @@ int main(){
                     enemy_5->x = aleat (X_SCREEN, 2 * X_SCREEN);
                 }
 
-
-                enemy_5->y += up_down;
-                if ((int)enemy_5->y + (int)enemy_5->side_y/2 >= CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2)){
-                    up_down *= -1;
+                enemy5_phase += enemy5_speed;
+                if (enemy5_phase >= 2.0f * 3.14159265f) enemy5_phase -= 2.0f * 3.14159265f;
+                enemy_5->y = enemy5_base_y + (int)(enemy5_amp * sinf(enemy5_phase));
+                
+                if (enemy_6->x - enemy_6->side_x/2 <= 0){
+                    enemy_6->x = aleat (X_SCREEN + 150, 2 * X_SCREEN);
                 }
-                if ((int)enemy_5->y - (int)enemy_5->side_y/2 <= CHAO_Y-100){
-                    up_down *= -1;
-                }
+                else enemy_6->x -= 2;
                 
                 if (!pe->in_air){
                     pe->vy = JUMP_VELOCITY_ENM;
@@ -296,7 +319,7 @@ int main(){
 
                 if (collision_cooldown > 0) collision_cooldown--;
 
-                if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4) || collision_2D (player_1, enemy_5)) && collision_cooldown == 0) {
+                if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4) || collision_2D (player_1, enemy_5) || collision_2D (player_1, enemy_6)) && collision_cooldown == 0) {
                     player_1->vida--;
                     collision_cooldown = 30;
 
@@ -321,11 +344,14 @@ int main(){
                 al_draw_text(font, al_map_rgb(255,255,255), X_SCREEN / 2, 200, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
             } else {
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
+                al_draw_filled_rectangle(enemy_6->x-enemy_6->side_x/2, enemy_6->y-enemy_6->side_y/2, enemy_6->x+enemy_6->side_x/2, enemy_6->y+enemy_6->side_y/2, al_map_rgb(0, 255, 255));
                 al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));
                 al_draw_filled_rectangle(enemy_2->x-enemy_2->side_x/2, enemy_2->y-enemy_2->side_y/2, enemy_2->x+enemy_2->side_x/2, enemy_2->y+enemy_2->side_y/2, al_map_rgb(0, 255, 0));
                 al_draw_filled_rectangle(enemy_3->x-enemy_3->side_x/2, enemy_3->y-enemy_3->side_y/2, enemy_3->x+enemy_3->side_x/2, enemy_3->y+enemy_3->side_y/2, al_map_rgb(200, 150, 0));
                 al_draw_filled_rectangle(enemy_4->x-enemy_4->side_x/2, enemy_4->y-enemy_4->side_y/2, enemy_4->x+enemy_4->side_x/2, enemy_4->y+enemy_4->side_y/2, al_map_rgb(0, 0, 0));
                 al_draw_filled_rectangle(enemy_5->x-enemy_5->side_x/2, enemy_5->y-enemy_5->side_y/2, enemy_5->x+enemy_5->side_x/2, enemy_5->y+enemy_5->side_y/2, al_map_rgb(0, 255, 255));
+                al_draw_filled_rectangle(ladder_x - ladder_w/2, ladder_y_top, ladder_x + ladder_w/2, ladder_y_bottom, al_map_rgb(150, 75, 0));
+                al_draw_bitmap_region (joker_sprite_sheet, (SPRITE_WIDTH) * (int)frame, current_frame_y, SPRITE_WIDTH, SPRITE_HEIGHT, player_1->x - player_1->side_x/2, player_1->y - player_1->side_y/2, 0);
             }
 
             al_flip_display();
@@ -333,8 +359,24 @@ int main(){
         else if ((event.type == 10) || (event.type == 12)){
             int pressed = (event.type == 10);
 
+            /* tecla W para subir escada (mantém estado enquanto pressionada) */
+            if (event.keyboard.keycode == ALLEGRO_KEY_W) {
+                w_pressed = pressed;
+            }
+
+
             if (event.keyboard.keycode == 1) player_1->control->left  = pressed;
-            else if (event.keyboard.keycode == 4) player_1->control->right = pressed;
+            else if (event.keyboard.keycode == 4) {
+                player_1->control->right = pressed;
+                if (pressed){
+                    current_frame_y = 189;
+                    max_frame = 8;
+                }
+                else{
+                    current_frame_y = 27;
+                    max_frame = 4;
+                }
+            }
             else if (event.keyboard.keycode == 23) player_1->control->jump  = pressed;
             else if (event.keyboard.keycode == 19) {
                 if (pressed) player_1->control->down = pressed;
@@ -354,10 +396,6 @@ int main(){
     deleteEnemy (enemy);
     deleteEnemy (enemy_2);
     deleteJoker (player_1);
-    al_destroy_bitmap(sprite_idle_right);
-    al_destroy_bitmap(sprite_idle_left);
-    al_destroy_bitmap(sprite_jump);
-    al_destroy_bitmap(sprite_crouch);
     al_destroy_bitmap(joker_sprite_sheet);
     al_destroy_bitmap(fase);
     al_destroy_font(font);

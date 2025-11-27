@@ -1,17 +1,18 @@
 make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # GNU Make 4.4.1
 # Built for x86_64-pc-msys
- 
 # Copyright (C) 1988-2023 Free Software Foundation, Inc.
 # License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
+ 
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Tue Nov 25 08:32:49 2025
+# Make data base, printed on Thu Nov 27 08:08:07 2025
 
 # Variables
 
+ 
 # environment
 SYSTEMDRIVE = C:
 # environment
@@ -39,7 +40,7 @@ USERDNSDOMAIN = TACLA.CORP
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_17776_IMPIYZNGYRYWZFLE
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_21524_MKISOQLWGYMIURJR
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -87,7 +88,7 @@ MAKEFILE_LIST := makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 17776
+VSCODE_PID = 21524
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
@@ -135,7 +136,7 @@ PROMPT = $P$G
 # environment
 APPLICATION_INSIGHTS_NO_STATSBEAT = true
 # environment
-WT_SESSION = e777130a-cafb-4735-a5ab-b1ef64101da6
+WT_SESSION = 67346834-5bff-4c44-8a06-a9144b96dc42
 # environment
 LOGONSERVER = \\DC-TACLA-CORP
 # environment
@@ -219,7 +220,7 @@ VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 # variable set hash-table stats:
-# Load=103/1024=10%, Rehash=0, Collisions=13/145=9%
+# Load=103/1024=10%, Rehash=0, Collisions=12/139=9%
 
 # Pattern-specific Variable Values
 
@@ -227,9 +228,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 
 # Directories
 
-# . (device 776031685, inode 2251799813839900): 22 files, no impossibilities.
+# . (device 776031685, inode 2251799813839900): 20 files, no impossibilities.
 
-# 22 files, no impossibilities in 1 directories.
+# 20 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -239,19 +240,20 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
 
 game: main.o joker.o joystick.o enemy.o
 #  Implicit rule search has not been done.
-#  Last modified 2025-11-24 08:55:42.9027147
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-27 08:08:06.1176208
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+#  Successfully updated.
 #  recipe to execute (from 'makefile', line 15):
 	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o enemy.o $(LDFLAGS)
 
 # Not a target:
 enemy.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-17 08:16:15.9215725
+#  File has been updated.
+#  Successfully updated.
 
 clean:
 #  Phony target (prerequisite of .PHONY).
@@ -271,9 +273,11 @@ valgrind: all
 
 # Not a target:
 joystick.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-17 08:16:15.9305716
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 joker.h:
@@ -295,63 +299,48 @@ all: game
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+#  Successfully updated.
 
 # Not a target:
 main.c:
 #  Implicit rule search has been done.
 #  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-25 08:19:53.8739812
+#  Last modified 2025-11-27 08:07:21.4251137
 #  File has been updated.
 #  Successfully updated.
 
 main.o: main.c joker.h
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  Last modified 2025-11-24 08:55:37.7768221
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-27 08:08:02.3890772
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := main.o
-# automatic
-# * := 
-# automatic
-# < := main.c
-# automatic
-# + := main.c joker.h
-# automatic
-# % := 
-# automatic
-# ^ := main.c joker.h
-# automatic
-# ? := main.c joker.h
-# automatic
-# | := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=2/14=14%
+#  Successfully updated.
 #  recipe to execute (from 'makefile', line 18):
 	$(CC) $(CFLAGS) -c main.c
 
 enemy.o: enemy.c enemy.h
 #  Implicit rule search has not been done.
- 
-#  Modification time never checked.
-#  File has not been updated.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-27 08:08:05.2958672
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'makefile', line 24):
 	$(CC) $(CFLAGS) -c enemy.c
 
 # Not a target:
 enemy.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-25 08:42:35.6131209
+#  File has been updated.
+#  Successfully updated.
 
 joystick.o: joystick.c joystick.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-27 08:08:04.3766922
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'makefile', line 27):
 	$(CC) $(CFLAGS) -c joystick.c
 
@@ -365,28 +354,28 @@ makefile:
 
 # Not a target:
 joystick.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-17 08:16:15.9316742
+#  File has been updated.
+#  Successfully updated.
 
 joker.o: joker.c joker.h
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-27 08:08:03.4016931
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'makefile', line 21):
 	$(CC) $(CFLAGS) -c joker.c
 
 # Not a target:
 joker.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-11-25 08:19:53.8669931
+#  File has been updated.
+#  Successfully updated.
 
 .PHONY: all clean valgrind
 #  Implicit rule search has not been done.
@@ -394,19 +383,19 @@ joker.c:
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=19/1024=2%, Rehash=0, Collisions=0/56=0%
+# Load=19/1024=2%, Rehash=0, Collisions=0/55=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 30 / storage = 339 B / avg = 11 B
-# current buf: size = 8162 B / used = 339 B / count = 30 / avg = 11 B
+# strcache buffers: 1 (0) / strings = 28 / storage = 325 B / avg = 11 B
+# current buf: size = 8162 B / used = 325 B / count = 28 / avg = 11 B
 
-# strcache performance: lookups = 65 / hit rate = 53%
+# strcache performance: lookups = 62 / hit rate = 54%
 # hash-table stats:
-# Load=30/8192=0%, Rehash=0, Collisions=0/65=0%
-# Finished Make data base on Tue Nov 25 08:32:49 2025
+# Load=28/8192=0%, Rehash=0, Collisions=0/62=0%
+# Finished Make data base on Thu Nov 27 08:08:07 2025
 
  
