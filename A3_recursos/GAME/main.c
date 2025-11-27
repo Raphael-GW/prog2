@@ -122,14 +122,37 @@ int main(){
         return 1;
     }
 
+    ALLEGRO_BITMAP *frost_sprite_sheet = al_load_bitmap("Jack_frost.png");
+    if (!frost_sprite_sheet) {
+        fprintf(stderr, "failed to load frost sprite sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
+    ALLEGRO_BITMAP *fence_sprite_sheet = al_load_bitmap("fence.png");
+    if (!fence_sprite_sheet) {
+        fprintf(stderr, "failed to load frost sprite sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
 
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
 
-    Joker* player_1 = createJoker(SPRITE_WIDTH, ALTURA_JOKER, 100, CHAO_Y, X_SCREEN, Y_SCREEN);
+    Joker* player_1 = createJoker(31, ALTURA_JOKER, 100, CHAO_Y, X_SCREEN, Y_SCREEN);
     if (!player_1) return 1;
-    Enemy* enemy = createEnemy(20, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
+    Enemy* enemy = createEnemy(30, ALTURA_ENEMY, X_SCREEN-10, CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy) return 2;
     Enemy* enemy_2 = createEnemy(10, ALTURA_ENEMY+10, aleat(X_SCREEN+30, 2*X_SCREEN), CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2), X_SCREEN, Y_SCREEN);
     if (!enemy_2) return 2;
@@ -170,6 +193,11 @@ int main(){
     int max_frame = 4;
     //int pos_x = 0, pos_y = 0;
     int current_frame_y = 27;
+    int sprite_width = SPRITE_WIDTH;
+
+    float enemy_frame = 0.f;
+    float fence_frame = 0.f;
+    
 
     while(1){
         al_wait_for_event(queue, &event);
@@ -266,6 +294,14 @@ int main(){
                 frame += 0.3f;
                 if (frame > max_frame) frame -= max_frame;
 
+                //atualiza frame inimigo
+                enemy_frame += 0.245f;
+                if (enemy_frame > 7) enemy_frame -= 7;
+
+                //atualiza frame thunder
+                fence_frame += 0.3f;
+                if (fence_frame > 4) fence_frame -= 4;
+
                 PhysicsEnemy *pe = find_entry(enemy);
                 if (!pe) {
                     pe = create_entry(enemy, enemy->y);
@@ -345,13 +381,17 @@ int main(){
             } else {
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
                 al_draw_filled_rectangle(enemy_6->x-enemy_6->side_x/2, enemy_6->y-enemy_6->side_y/2, enemy_6->x+enemy_6->side_x/2, enemy_6->y+enemy_6->side_y/2, al_map_rgb(0, 255, 255));
-                al_draw_filled_rectangle(enemy->x-enemy->side_x/2, enemy->y-enemy->side_y/2, enemy->x+enemy->side_x/2, enemy->y+enemy->side_y/2, al_map_rgb(0, 0, 255));
-                al_draw_filled_rectangle(enemy_2->x-enemy_2->side_x/2, enemy_2->y-enemy_2->side_y/2, enemy_2->x+enemy_2->side_x/2, enemy_2->y+enemy_2->side_y/2, al_map_rgb(0, 255, 0));
+                al_draw_bitmap_region (frost_sprite_sheet, 41 * (int)enemy_frame, 17, 40, 70, enemy->x - enemy->side_x/2, enemy->y - enemy->side_y, ALLEGRO_FLIP_HORIZONTAL);
+                al_draw_bitmap_region (fence_sprite_sheet, 20 * (int)fence_frame, 4, 20, 60, enemy_2->x - enemy_2->side_x/2, enemy_2->y - enemy_2->side_y/2 - 5, 0);
                 al_draw_filled_rectangle(enemy_3->x-enemy_3->side_x/2, enemy_3->y-enemy_3->side_y/2, enemy_3->x+enemy_3->side_x/2, enemy_3->y+enemy_3->side_y/2, al_map_rgb(200, 150, 0));
                 al_draw_filled_rectangle(enemy_4->x-enemy_4->side_x/2, enemy_4->y-enemy_4->side_y/2, enemy_4->x+enemy_4->side_x/2, enemy_4->y+enemy_4->side_y/2, al_map_rgb(0, 0, 0));
                 al_draw_filled_rectangle(enemy_5->x-enemy_5->side_x/2, enemy_5->y-enemy_5->side_y/2, enemy_5->x+enemy_5->side_x/2, enemy_5->y+enemy_5->side_y/2, al_map_rgb(0, 255, 255));
                 al_draw_filled_rectangle(ladder_x - ladder_w/2, ladder_y_top, ladder_x + ladder_w/2, ladder_y_bottom, al_map_rgb(150, 75, 0));
-                al_draw_bitmap_region (joker_sprite_sheet, (SPRITE_WIDTH) * (int)frame, current_frame_y, SPRITE_WIDTH, SPRITE_HEIGHT, player_1->x - player_1->side_x/2, player_1->y - player_1->side_y/2, 0);
+                
+                int flip_flag = player_1->flip ? ALLEGRO_FLIP_HORIZONTAL : 0;
+                
+                al_draw_bitmap_region(joker_sprite_sheet, sprite_width * (int)frame, current_frame_y, sprite_width, SPRITE_HEIGHT, 
+                                      player_1->x - player_1->side_x/2, player_1->y - player_1->side_y/2, flip_flag);
             }
 
             al_flip_display();
@@ -365,24 +405,58 @@ int main(){
             }
 
 
-            if (event.keyboard.keycode == 1) player_1->control->left  = pressed;
-            else if (event.keyboard.keycode == 4) {
-                player_1->control->right = pressed;
+            if (event.keyboard.keycode == 1) {
+                player_1->control->left  = pressed;
                 if (pressed){
+                    sprite_width = 31;
                     current_frame_y = 189;
                     max_frame = 8;
                 }
                 else{
                     current_frame_y = 27;
+                    sprite_width = SPRITE_WIDTH;
                     max_frame = 4;
                 }
             }
-            else if (event.keyboard.keycode == 23) player_1->control->jump  = pressed;
+            else if (event.keyboard.keycode == 4) {
+                player_1->control->right = pressed;
+                if (pressed){
+                    sprite_width = 31;
+                    current_frame_y = 189;
+                    max_frame = 8;
+                }
+                else{
+                    current_frame_y = 27;
+                    sprite_width = SPRITE_WIDTH;
+                    max_frame = 4;
+                }
+            }
+            else if (event.keyboard.keycode == 23) {
+                player_1->control->jump  = pressed;
+                if (pressed){
+                    sprite_width = 31;
+                    current_frame_y = 106;
+                    max_frame = 8;
+                }
+                else{
+                    current_frame_y = 27;
+                    sprite_width = SPRITE_WIDTH;
+                    max_frame = 4;
+                }
+            }
             else if (event.keyboard.keycode == 19) {
-                if (pressed) player_1->control->down = pressed;
+                if (pressed) {
+                    player_1->control->down = pressed;
+                    sprite_width = 31;
+                    current_frame_y = 126;
+                    max_frame = 1;
+                }
                 else {
                     player_1->control->down = 0;
                     moveJoker(player_1, -1, 3, X_SCREEN, Y_SCREEN);
+                    current_frame_y = 27;
+                    sprite_width = SPRITE_WIDTH;
+                    max_frame = 4;
                 }
             }
 
@@ -395,8 +469,13 @@ int main(){
 
     deleteEnemy (enemy);
     deleteEnemy (enemy_2);
+    deleteEnemy (enemy_3);
+    deleteEnemy (enemy_4);
+    deleteEnemy (enemy_5);
+    deleteEnemy (enemy_6);
     deleteJoker (player_1);
     al_destroy_bitmap(joker_sprite_sheet);
+    al_destroy_bitmap(frost_sprite_sheet);
     al_destroy_bitmap(fase);
     al_destroy_font(font);
     al_destroy_font(bigfont);

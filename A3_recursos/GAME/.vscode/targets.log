@@ -1,257 +1,344 @@
 make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
-# GNU Make 4.4.1
-# Built for x86_64-pc-msys
-# Copyright (C) 1988-2023 Free Software Foundation, Inc.
-# License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
-# This is free software: you are free to change and redistribute it.
- 
-# There is NO WARRANTY, to the extent permitted by law.
+# GNU Make 3.80
+# Copyright (C) 2002  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
  
 
-# Make data base, printed on Thu Nov 27 08:08:07 2025
+# Make data base, printed on Thu Nov 27 17:07:24 2025
 
 # Variables
 
- 
-# environment
-SYSTEMDRIVE = C:
-# environment
-LC_ALL = C
-# environment
-USERPROFILE = C:\Users\raphael.gaias.TACLA
-# environment
-LOCALAPPDATA = C:\Users\raphael.gaias.TACLA\AppData\Local
-# environment
-WSLENV = WT_SESSION:WT_PROFILE_ID:
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
 # environment
 VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
-# environment
-VSCODE_CWD = C:\Users\raphael.gaias.TACLA\Documents\prog2\A3_recursos\GAME
-# environment
-SYSTEMROOT = C:\WINDOWS
-# environment
-PROCESSOR_LEVEL = 6
-# environment
-PSMODULEPATH = C:\Users\raphael.gaias.TACLA\Documents\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
-# default
-MAKE_COMMAND := make
-# environment
-USERDNSDOMAIN = TACLA.CORP
+# makefile
+MAKEFLAGS = Rrqp
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_21524_MKISOQLWGYMIURJR
-# environment
-VSCODE_HANDLES_UNCAUGHT_ERRORS = true
-# default
-.VARIABLES := 
+HOMEDRIVE = C:
 # automatic
-%D = $(patsubst %/,%,$(dir $%))
+@F = $(notdir $@)
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
+# default
+CURDIR := c:/Users/rapha/OneDrive - ufpr.br/�rea de Trabalho/prog2/A3_recursos/GAME
+# default
+SHELL := C:/Program Files/Git/bin/sh.exe
+# environment
+WINDIR = C:\WINDOWS
+# environment
+VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"pt-br","resolvedLanguage":"en","defaultMessagesFile":"C:\\Users\\rapha\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","locale":"en-us","availableLanguages":{}}
+# makefile (from `makefile', line 7)
+CFLAGS = -Wall -g $(PKG_CFLAGS)
+# environment
+ONEDRIVE = C:\Users\rapha\OneDrive
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# makefile (from `makefile', line 1)
+MAKEFILE_LIST :=  makefile
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+TMP = C:\Users\rapha\AppData\Local\Temp
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PROGRAMDATA = C:\ProgramData
+# makefile (from `makefile', line 4)
+PKG_CFLAGS := -IC:/msys64/ucrt64/bin/../include
+# environment
+VSCODE_CWD = C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code
+# environment
+PATH = C:\Program Files\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\;C:\allegro-x86_64-w64-mingw32-gcc-14.2.0-posix-seh-dynamic-5.2.10.0\allegro\bin;C:\Users\rapha\AppData\Local\Programs\Python\Launcher\;C:\Users\rapha\AppData\Local\Microsoft\WindowsApps;C:\Users\rapha\.dotnet\tools;C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\msys64\ucrt64\bin;C:\MinGW\bin;C:\Users\rapha\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\Scripts\git-filter-repo.exe;C:\allegro-x86_64-w64-mingw32-gcc-14.2.0-posix-seh-dynamic-5.2.10.0\allegro\bin;
+# makefile (from `makefile', line 5)
+PKG_LIBS := -LC:/msys64/ucrt64/bin/../lib -lallegro_main - 
+lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_image -lallegro
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# environment
+EFC_9372_2775293581 = 1
+# environment
+ZES_ENABLE_SYSMAN = 1
+# environment
+PROCESSOR_ARCHITECTURE = x86
+# environment
+EFC_9372_1262719628 = 1
+# environment
+USERPROFILE = C:\Users\rapha
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+NUMBER_OF_PROCESSORS = 8
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from `makefile', line 8)
+LDFLAGS := -LC:/msys64/ucrt64/bin/../lib -lallegro_main -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_image -lallegro
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\raphael.gaias.TACLA\AppData\Roaming\Code\CachedData\1e3c50d64110be466c0b4a45222e81d2c9352888
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_18536_QTIMPZZLVHVNLIWR
 # environment
-LANG = C
-# default
-.LOADED := 
+COMPUTERNAME = RAPHAGW
 # environment
-TMP = /c/Users/RAPHAE~1.TAC/AppData/Local/Temp
-# default
-.INCLUDE_DIRS := /usr/include
-# makefile
-MAKEFLAGS = pqrR
-# environment
-ONEDRIVE = C:\Users\raphael.gaias.TACLA\OneDrive
-# makefile
-CURDIR := /c/Users/raphael.gaias.TACLA/Documents/prog2/A3_recursos/GAME
-# automatic
-*D = $(patsubst %/,%,$(dir $*))
-# environment
-PROGRAMFILES = C:\Program Files
-# environment
-MFLAGS = -pqrR
-# default
-.SHELLFLAGS := -c
-# environment
-!C: = c:\Users\raphael.gaias.TACLA\Documents\prog2\A3_recursos\GAME
-# environment
-COMMONPROGRAMW6432 = C:\Program Files\Common Files
-# automatic
-+D = $(patsubst %/,%,$(dir $+))
-# makefile (from 'makefile', line 4)
-PKG_CFLAGS := -IC:/msys64/mingw64/include
-# makefile (from 'makefile', line 1)
-MAKEFILE_LIST := makefile
-# automatic
-@F = $(notdir $@)
-# environment
-VSCODE_PID = 21524
-# automatic
-?D = $(patsubst %/,%,$(dir $?))
-# environment
-WT_PROFILE_ID = {61c54bbd-c2c6-5271-96e7-009a87ff44bf}
-# automatic
-*F = $(notdir $*)
-# automatic
-<D = $(patsubst %/,%,$(dir $<))
-# environment
-VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"pt-br","resolvedLanguage":"en","defaultMessagesFile":"C:\\Users\\raphael.gaias.TACLA\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\out\\nls.messages.json","locale":"en-us","availableLanguages":{}}
-# default
-MAKE_HOST := x86_64-pc-msys
-# environment
-PROGRAMDATA = C:\ProgramData
-# default
-SHELL := /bin/sh
-# makefile (from 'makefile', line 5)
-PKG_LIBS := -LC:/msys64/mingw64/lib -lallegro_main -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_image -lallegro
-# environment
-HOMEPATH = \Users\raphael.gaias.TACLA
-# default
-MAKECMDGOALS := all
+PROGRAMFILES = C:\Program Files (x86)
 # environment
 DRIVERDATA = C:\Windows\System32\Drivers\DriverData
 # environment
-COMSPEC = C:\WINDOWS\system32\cmd.exe
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
-WINDIR = C:\WINDOWS
+USERNAME = rapha
+# environment
+PUBLIC = C:\Users\Public
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\rapha\AppData\Roaming\Code\CachedData\1e3c50d64110be466c0b4a45222e81d2c9352888
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
+# environment
+LOGONSERVER = \\RAPHAGW
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+USERDOMAIN = RAPHAGW
 # environment
 MAKELEVEL := 0
 # default
 MAKE = $(MAKE_COMMAND)
-# environment
-PATH = /c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/c/Program Files/dotnet:/c/Program Files/Git/cmd:/mingw64/bin:/usr/bin:/c/Users/raphael.gaias.TACLA/AppData/Local/Microsoft/WindowsApps:/c/Users/raphael.gaias.TACLA/AppData/Local/Programs/Microsoft VS Code/bin:/mingw64/bin:/usr/bin
-# environment
-ZES_ENABLE_SYSMAN = 1
-# environment
-COMPUTERNAME = TI-RAPHAEL
 # default
-MAKEFILES := 
-# automatic
-^F = $(notdir $^)
-# environment
-PROMPT = $P$G
-# environment
-APPLICATION_INSIGHTS_NO_STATSBEAT = true
-# environment
-WT_SESSION = 67346834-5bff-4c44-8a06-a9144b96dc42
-# environment
-LOGONSERVER = \\DC-TACLA-CORP
-# environment
-USERNAME = raphael.gaias
-# environment
-COMMONPROGRAMFILES = C:\Program Files\Common Files
-# automatic
-?F = $(notdir $?)
-# environment
-PROGRAMW6432 = C:\Program Files
-# environment
-PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
-# automatic
-+F = $(notdir $+)
-# environment
-ORIGINAL_XDG_CURRENT_DESKTOP = undefined
-# environment
-USERDOMAIN = TACLA
-# 'override' directive
-GNUMAKEFLAGS := 
-# environment
-OS = Windows_NT
-# makefile
-.DEFAULT_GOAL := all
-# default
-MAKE_VERSION := 4.4.1
-# 'override' directive
-.SHELLSTATUS := 0
-# environment
-PROGRAMFILES(X86) = C:\Program Files (x86)
-# makefile (from 'makefile', line 8)
-LDFLAGS := -LC:/msys64/mingw64/lib -lallegro_main -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_image -lallegro
-# environment
-USERDOMAIN_ROAMINGPROFILE = TACLA
-# environment
-NUMBER_OF_PROCESSORS = 8
-# environment
-PUBLIC = C:\Users\Public
-# environment
-APPDATA = C:\Users\raphael.gaias.TACLA\AppData\Roaming
-# makefile (from 'makefile', line 7)
-CFLAGS = -Wall -g $(PKG_CFLAGS)
-# environment
-HOMEDRIVE = C:
-# environment
-PROCESSOR_ARCHITECTURE = AMD64
-# environment
-HOME = /home/raphael.gaias
-# environment
-COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
-# environment
-ELECTRON_RUN_AS_NODE = 1
-# environment
-TEMP = /c/Users/RAPHAE~1.TAC/AppData/Local/Temp
-# environment
-VSCODE_IPC_HOOK = \\.\pipe\0b3aa732-1.106.2-main-sock
-# environment
-TERM = xterm-256color
-# default
-.RECIPEPREFIX := 
-# automatic
-<F = $(notdir $<)
-# default
-SUFFIXES := 
-# environment
-ALLUSERSPROFILE = C:\ProgramData
-# environment
-SESSIONNAME = Console
-# environment
-VSCODE_CLI = 1
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
-# default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver output-sync check-symlink load dospaths
-# environment
-PROCESSOR_REVISION = 7e05
-# makefile (from 'makefile', line 1)
+MAKECMDGOALS := all
+# makefile (from `makefile', line 1)
 CC = gcc
 # environment
 VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# default
+MAKE_VERSION := 3.80
 # environment
-PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
+NODE_UNC_HOST_ALLOWLIST = wsl.localhost
+# environment
+APPLICATION_INSIGHTS_NO_STATSBEAT = true
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LOCALAPPDATA = C:\Users\rapha\AppData\Local
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make.exe
+# environment
+PROCESSOR_ARCHITEW6432 = AMD64
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 190 Stepping 0, GenuineIntel
+# environment
+OS = Windows_NT
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\f48552b0-1.106.2-main-sock
+# environment
+HOMEPATH = \Users\rapha
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+PROMPT = $P$G
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+SYSTEMROOT = C:\WINDOWS
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+APPDATA = C:\Users\rapha\AppData\Roaming
+# environment
+Path = C:\Program Files\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\;C:\allegro-x86_64-w64-mingw32-gcc-14.2.0-posix-seh-dynamic-5.2.10.0\allegro\bin;C:\Users\rapha\AppData\Local\Programs\Python\Launcher\;C:\Users\rapha\AppData\Local\Microsoft\WindowsApps;C:\Users\rapha\.dotnet\tools;C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\msys64\ucrt64\bin;C:\MinGW\bin;C:\Users\rapha\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\Scripts\git-filter-repo.exe;C:\allegro-x86_64-w64-mingw32-gcc-14.2.0-posix-seh-dynamic-5.2.10.0\allegro\bin;
+# environment
+TEMP = C:\Users\rapha\AppData\Local\Temp
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+EFC_9372_2283032206 = 1
+# environment
+LC_ALL = C
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# environment
+SYSTEMDRIVE = C:
+# environment
+SESSIONNAME = Console
+# environment
+PROCESSOR_REVISION = be00
+# environment
+LEVEL_ZERO_V1_SDK_PATH = C:\Program Files\LevelZeroSDK\1.21.6\
+# environment
+EFC_9372_3789132940 = 1
+# environment
+LANG = C
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+VSCODE_PID = 18536
+# environment
+EFC_9372_1592913036 = 1
+# environment
+USERDOMAIN_ROAMINGPROFILE = RAPHAGW
 # variable set hash-table stats:
-# Load=103/1024=10%, Rehash=0, Collisions=12/139=9%
-
-# Pattern-specific Variable Values
-
-# No pattern-specific variable values.
+# Load=97/1024=9%, Rehash=0, Collisions=11/128=9%
 
 # Directories
 
-# . (device 776031685, inode 2251799813839900): 20 files, no impossibilities.
+# C:\WINDOWS\System32\WindowsPowerShell\v1.0\ (key C:/WINDOWS/System32/WindowsPowerShell/v1.0/, mtime 1761331444): 29 files, no impossibilities.
+# C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, mtime 1762246092): 150 files, no impossibilities.
+# . (key c:/Users/rapha/OneDrive - ufpr.br/�rea de Trabalho/prog2/A3_recursos/GAME, mtime 1764274043): 20 files, no impossibilities.
+# C:\Program Files\dotnet\ (key C:/Program Files/dotnet/, mtime 1746214553): 13 files, no impossibilities.
+# C:\Program Files\Eclipse Adoptium\jdk-25.0.1.8-hotspot\bin (key C:/Program Files/Eclipse Adoptium/jdk-25.0.1.8-hotspot/bin, mtime 1761856998): 129 files, no impossibilities.
+# C:\WINDOWS\System32\OpenSSH\: could not be stat'd.
+# C:\Users\rapha\AppData\Local\Programs\Python\Launcher\ (key C:/Users/rapha/AppData/Local/Programs/Python/Launcher/, mtime 1759183797): 5 files, no impossibilities.
+# C:\WINDOWS (key C:/WINDOWS, mtime 1763852560): 113 files, no impossibilities.
+# C:\ProgramData\Oracle\Java\javapath (key C:/ProgramData/Oracle/Java/javapath, mtime 1740574056): 5 files, no impossibilities.
+# C:\Users\rapha\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/rapha/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1763749434): 5 files, no impossibilities.
+# C:\Program Files\Git\bin (key C:/Program Files/Git/bin, mtime 1744317022): 5 files, no impossibilities so far.
+# C:\Users\rapha\.dotnet\tools: could not be stat'd.
+# C:\Program Files (x86)\Microsoft Group Policy\Windows Server 2022 August 2021 Update\PolicyDefinitions\ (key C:/Program Files (x86)/Microsoft Group Policy/Windows Server 2022 August 2021 Update/PolicyDefinitions/, mtime 1757171433): 238 files, no impossibilities.
+# C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1744317047): 13 files, no impossibilities.
+# C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 1763691433): 2975 files, no impossibilities.
+# C:\allegro-x86_64-w64-mingw32-gcc-14.2.0-posix-seh-dynamic-5.2.10.0\allegro\bin (key C:/allegro-x86_64-w64-mingw32-gcc-14.2.0-posix-seh-dynamic-5.2.10.0/allegro/bin, mtime 1762468512): 33 files, no impossibilities.
+# C:\Users\rapha\AppData\Local\Microsoft\WindowsApps (key C:/Users/rapha/AppData/Local/Microsoft/WindowsApps, mtime 1764115605): 68 files, no impossibilities.
 
-# 20 files, no impossibilities in 1 directories.
+# 3801 files, no impossibilities in 17 directories.
 
 # Implicit Rules
 
 # No implicit rules.
 
+# Pattern-specific variable values
+
+# No pattern-specific variable values.
+
 # Files
 
-game: main.o joker.o joystick.o enemy.o
+enemy.o: enemy.c enemy.h
 #  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-27 08:08:06.1176208
+#  Last modified 2025-11-27 17:07:22
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'makefile', line 15):
-	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o enemy.o $(LDFLAGS)
+#  commands to execute (from `makefile', line 24):
+	$(CC) $(CFLAGS) -c enemy.c
+	
+
+all: game
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
+
+.PHONY: all clean valgrind
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
-enemy.c:
+main.c:
 #  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-17 08:16:15.9215725
+#  Last modified 2025-11-27 17:06:59
+#  File has been updated.
+#  Successfully updated.
+
+joystick.o: joystick.c joystick.h
+#  Implicit rule search has not been done.
+#  Last modified 2025-11-27 17:07:22
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 27):
+	$(CC) $(CFLAGS) -c joystick.c
+	
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+joker.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-27 17:06:59
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+joker.h:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-21 16:30:24
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-21 15:22:58
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+enem 
+y.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-16 17:56:14
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+joystick.c:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-10 20:40:27
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+enemy.h:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-27 17:06:59
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+joystick.h:
+#  Implicit rule search has been done.
+#  Last modified 2025-11-10 20:40:27
 #  File has been updated.
 #  Successfully updated.
 
@@ -260,142 +347,73 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'makefile', line 30):
+#  commands to execute (from `makefile', line 30):
 	rm -f *.o game
+	
+
+game: main.o joker.o joystick.o enemy.o
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := game
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := main.o joker.o joystick.o enemy.o
+# automatic
+# | := 
+# automatic
+# < := main.o
+# automatic
+# ^ := main.o joker.o joystick.o enemy.o
+# automatic
+# ? := main.o joker.o joystick.o enemy.o
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
+#  commands to execute (from `makefile', line 15):
+	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o enemy.o $(LDFLAGS)
+	
+
+main.o: main.c joker.h
+#  Implicit rule search has not been done.
+#  Last modified 2025-11-27 17:07:22
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 18):
+	$(CC) $(CFLAGS) -c main.c
+	
+
+joker.o: joker.c joker.h
+#  Implicit rule search has not been done.
+#  Last modified 2025-11-27 17:07:22
+#  File has been updated.
+#  Successfully updated.
+#  commands to execute (from `makefile', line 21):
+	$(CC) $(CFLAGS) -c joker.c
+	
 
 valgrind: all
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'makefile', line 33):
+#  commands to execute (from `makefile', line 33):
 	valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./game
-
-# Not a target:
-joystick.c:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-17 08:16:15.9305716
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-joker.h:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-25 08:19:53.8679822
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-.DEFAULT:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-all: game
-#  Phony target (prerequisite of .PHONY).
-#  Command line target.
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-main.c:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-27 08:07:21.4251137
-#  File has been updated.
-#  Successfully updated.
-
-main.o: main.c joker.h
-#  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-27 08:08:02.3890772
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'makefile', line 18):
-	$(CC) $(CFLAGS) -c main.c
-
-enemy.o: enemy.c enemy.h
-#  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-27 08:08:05.2958672
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'makefile', line 24):
-	$(CC) $(CFLAGS) -c enemy.c
-
-# Not a target:
-enemy.h:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-25 08:42:35.6131209
-#  File has been updated.
-#  Successfully updated.
-
-joystick.o: joystick.c joystick.h
-#  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-27 08:08:04.3766922
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'makefile', line 27):
-	$(CC) $(CFLAGS) -c joystick.c
-
-# Not a target:
-makefile:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-21 10:45:47.0183695
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-joystick.h:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-17 08:16:15.9316742
-#  File has been updated.
-#  Successfully updated.
-
-joker.o: joker.c joker.h
-#  Implicit rule search has not been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-27 08:08:03.4016931
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'makefile', line 21):
-	$(CC) $(CFLAGS) -c joker.c
-
-# Not a target:
-joker.c:
-#  Implicit rule search has been done.
-#  File is secondary (prerequisite of .SECONDARY).
-#  Last modified 2025-11-25 08:19:53.8669931
-#  File has been updated.
-#  Successfully updated.
-
-.PHONY: all clean valgrind
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+	
 
 # files hash-table stats:
-# Load=19/1024=2%, Rehash=0, Collisions=0/55=0%
+# Load=19/1024=2%, Rehash=0, Collisions=0/49=0%
 # VPATH Search Paths
 
-# No 'vpath' search paths.
+# No `vpath' search paths.
 
-# No general ('VPATH' variable) search path.
+# No general (`VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 28 / storage = 325 B / avg = 11 B
-# current buf: size = 8162 B / used = 325 B / count = 28 / avg = 11 B
-
-# strcache performance: lookups = 62 / hit rate = 54%
-# hash-table stats:
-# Load=28/8192=0%, Rehash=0, Collisions=0/62=0%
-# Finished Make data base on Thu Nov 27 08:08:07 2025
+# Finished Make data base on Thu Nov 27 17:07:24 2025
 
  

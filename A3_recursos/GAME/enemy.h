@@ -2,7 +2,7 @@
 #define __ENEMY__
 
 #define ENEMY_STEP 10
-#define ALTURA_ENEMY 30
+#define ALTURA_ENEMY 40
 #define LARGURA_ENEMY 20
 #define ENEMY_SPEED 3
 #define GRAVITY 0.8f
