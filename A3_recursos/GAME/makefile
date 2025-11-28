@@ -12,7 +12,7 @@ LDFLAGS := $(PKG_LIBS)
 all: game
 
 game: main.o joker.o joystick.o enemy.o
-	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o enemy.o $(LDFLAGS)
+	$(CC) $(CFLAGS) -o game main.o joker.o joystick.o enemy.o $(LDFLAGS) -lm
 
 main.o: main.c joker.h
 	$(CC) $(CFLAGS) -c main.c
