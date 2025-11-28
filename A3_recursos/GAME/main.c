@@ -80,7 +80,7 @@ int main(){
         return 1;
     }
 
-    if (!al_reserve_samples(1)) {
+    if (!al_reserve_samples(5)) {
        fprintf(stderr, "al_reserve_samples failed\n");
         return 1;
     }
@@ -219,6 +219,30 @@ int main(){
         return 1;
     }
 
+    ALLEGRO_SAMPLE* trilha_pause = al_load_sample ("assets/menu.wav");
+    if(!trilha_pause){
+        fprintf(stderr, "failed to load audio sample.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
+    ALLEGRO_SAMPLE* trilha_game_over = al_load_sample ("assets/game_over.wav");
+    if(!trilha_game_over){
+        fprintf(stderr, "failed to load audio sample.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
@@ -243,11 +267,17 @@ int main(){
 
     int collision_cooldown = 0;
     int game_over = 0;
+    int game_over_played = 0;
+
     int menu = 1;
     int bg_w = al_get_bitmap_width(fase);
     int min_background_x = X_SCREEN - bg_w;
     int win = 0;
+
     int pause = 0;
+    int pause_played = 0;
+    int pause_just_activated = 0;
+
     float enemy5_phase = 0.0f;
     const float enemy5_amp = 50.0f; /* amplitude em pixels (ajuste conforme desejar) */
     const float enemy5_speed = 0.08f; /* velocidade angular (ajuste para mais/menos suavidade) */
@@ -265,7 +295,7 @@ int main(){
     // variaveis frame
     float frame = 0.f;
     int max_frame = 4;
-    //int pos_x = 0, pos_y = 0;
+    
     int current_frame_y = 27;
     int sprite_width = SPRITE_WIDTH;
 
@@ -323,7 +353,6 @@ int main(){
                     if (player_1->x >= X_SCREEN - 100) {
                         win = 1;
                     }
-                    
                     
                     
                     /* quando jogador ultrapassa x=400 e ainda há mapa à direita, scrolla e trava x em 400 */
@@ -388,7 +417,7 @@ int main(){
                     enemy_frame += 0.245f;
                     if (enemy_frame > 7) enemy_frame -= 7;
 
-                    //atualiza frame thunder
+                    //atualiza frame fence
                     fence_frame += 0.3f;
                     if (fence_frame > 4) fence_frame -= 4;
 
@@ -456,6 +485,7 @@ int main(){
                         if (player_1->vida <= 0) {
                             player_1->vida = 0;
                             game_over = 1;
+                            game_over_played = 0;
                         }
                     }
 
@@ -465,6 +495,11 @@ int main(){
             }
 
             if (game_over) {
+                if (!game_over_played) {
+                    al_stop_samples();
+                    al_play_sample(trilha_game_over, 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_LOOP,NULL);
+                    game_over_played = 1;
+                }
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 al_draw_text(bigfont, al_map_rgb(255, 0, 0), X_SCREEN / 2, 90, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
                 al_draw_textf(font, al_map_rgb(255,255,255), X_SCREEN / 2, 150, ALLEGRO_ALIGN_CENTRE, "Vida: %d", player_1->vida);
@@ -486,8 +521,20 @@ int main(){
                 
                 /* se estiver em pausa, desenha overlay de pausa */
                 if (pause) {
+                    if (pause_just_activated) {
+                        al_stop_samples();
+                        al_play_sample(trilha_pause, 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_LOOP,NULL);
+                        pause_played = 1;
+                        pause_just_activated = 0;
+                    }
                     al_draw_filled_rectangle(X_SCREEN/2 - 100, Y_SCREEN/2 - 50, X_SCREEN/2 + 100, Y_SCREEN/2 + 50, al_map_rgba(0,0,0,180));
                     al_draw_text(bigfont, al_map_rgb(255,255,0), X_SCREEN / 2, Y_SCREEN / 2 - 12, ALLEGRO_ALIGN_CENTRE, "PAUSE");
+                } 
+                if (!pause && pause_just_activated == 0 && pause_played){
+                    // quando sair do pause retorna para a trilha sonora
+                    al_stop_samples ();
+                    al_play_sample(trilha_sonora, 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_LOOP,NULL);
+                    pause_played = 0;
                 }
             }
 
@@ -499,7 +546,19 @@ int main(){
             /* tecla ESC alterna pausa (pressionamento) */
             if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && pressed) {
                 /* se estiver em tela de menu ou vitória, keep behavior original */
-                if (!menu && !win) pause = !pause;
+                if (!menu && !win) {
+                    if (!pause) { 
+                        // entrando no pause
+                        pause = 1;
+                        pause_played = 1;
+                        pause_just_activated = 1;
+                    } else {
+                        // saindo do pause
+                        pause = 0;
+                        pause_played = 1;
+                        pause_just_activated = 0;
+                    }
+                }
             }
 
             /* tecla W para subir escada (mantém estado enquanto pressionada) */
