@@ -4,6 +4,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <stdio.h>
 #include <math.h>
 #include "joker.h"
@@ -66,9 +68,20 @@ int main(){
     al_init_font_addon();
     al_init_ttf_addon();
     al_init_image_addon();
+    al_init_acodec_addon();
 
     if (!al_install_keyboard()) {
         fprintf(stderr, "al_install_keyboard failed\n");
+        return 1;
+    }
+
+    if (!al_install_audio()) {
+        fprintf(stderr, "al_install_audio failed\n");
+        return 1;
+    }
+
+    if (!al_reserve_samples(1)) {
+       fprintf(stderr, "al_reserve_samples failed\n");
         return 1;
     }
 
@@ -146,6 +159,66 @@ int main(){
         return 1;
     }
 
+    ALLEGRO_BITMAP *spike_sprite_sheet = al_load_bitmap("spikes.png");
+    if (!spike_sprite_sheet) {
+        fprintf(stderr, "failed to load spikes sprite sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
+    ALLEGRO_BITMAP *ball_sprite_sheet = al_load_bitmap("ball.png");
+    if (!spike_sprite_sheet) {
+        fprintf(stderr, "failed to load ball sprite sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
+    ALLEGRO_BITMAP *ladder_sprite_sheet = al_load_bitmap("ladder.png");
+    if (!spike_sprite_sheet) {
+        fprintf(stderr, "failed to load ladder sprite sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
+    ALLEGRO_BITMAP *thwomp_sprite_sheet = al_load_bitmap("thwomp.png");
+    if (!thwomp_sprite_sheet) {
+        fprintf(stderr, "failed to load ladder thwwomp sheet.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
+    ALLEGRO_SAMPLE* trilha_sonora = al_load_sample ("trilha.wav");
+    if(!trilha_sonora){
+        fprintf(stderr, "failed to load audio sample.\n");
+        al_destroy_bitmap(fase);
+        al_destroy_font(font);
+        al_destroy_font(bigfont);
+        al_destroy_display(disp);
+        al_destroy_event_queue(queue);
+        al_destroy_timer(timer);
+        return 1;
+    }
+
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
@@ -160,7 +233,7 @@ int main(){
     if (!enemy_3) return 2;
     Enemy* enemy_4 = createEnemy(100, 10, aleat(X_SCREEN+90, 2*X_SCREEN), CHAO_Y+(player_1->side_y/2 - ALTURA_ENEMY/2) + 15, X_SCREEN, Y_SCREEN);
     if (!enemy_4) return 2;
-    Enemy* enemy_5 = createEnemy(20, ALTURA_ENEMY, aleat(X_SCREEN+110, 2*X_SCREEN), CHAO_Y-37, X_SCREEN, Y_SCREEN);
+    Enemy* enemy_5 = createEnemy(40, ALTURA_ENEMY, aleat(X_SCREEN+130, 2*X_SCREEN), CHAO_Y-37, X_SCREEN, Y_SCREEN);
     if (!enemy_5) return 2;
     Enemy* enemy_6 = createEnemy(50, ALTURA_ENEMY+82, aleat(X_SCREEN+150, 2*X_SCREEN), CHAO_Y-30, X_SCREEN, Y_SCREEN);
     if (!enemy_6) return 2;
@@ -211,6 +284,7 @@ int main(){
             al_wait_for_event(queue, &event);
             if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
                 menu = 0;
+                al_play_sample(trilha_sonora, 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_LOOP,NULL);
             }
             if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
                 return 0;
@@ -380,13 +454,13 @@ int main(){
                 al_draw_text(font, al_map_rgb(255,255,255), X_SCREEN / 2, 200, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
             } else {
                 al_draw_textf(font, al_map_rgb(0, 0, 0), 10, 10, ALLEGRO_ALIGN_LEFT, "Vida: %hu", player_1->vida);
-                al_draw_filled_rectangle(enemy_6->x-enemy_6->side_x/2, enemy_6->y-enemy_6->side_y/2, enemy_6->x+enemy_6->side_x/2, enemy_6->y+enemy_6->side_y/2, al_map_rgb(0, 255, 255));
+                al_draw_bitmap_region (ladder_sprite_sheet, 0, 0, ladder_w, ladder_h, ladder_x - ladder_w/2, ladder_y_top, 0);
+                al_draw_bitmap_region (thwomp_sprite_sheet, 0, 0, 60, 130, enemy_6->x - enemy_6->side_x/2, enemy_6->y - enemy_6->side_y/2, 0);
                 al_draw_bitmap_region (frost_sprite_sheet, 41 * (int)enemy_frame, 17, 40, 70, enemy->x - enemy->side_x/2, enemy->y - enemy->side_y, ALLEGRO_FLIP_HORIZONTAL);
                 al_draw_bitmap_region (fence_sprite_sheet, 20 * (int)fence_frame, 4, 20, 60, enemy_2->x - enemy_2->side_x/2, enemy_2->y - enemy_2->side_y/2 - 5, 0);
-                al_draw_filled_rectangle(enemy_3->x-enemy_3->side_x/2, enemy_3->y-enemy_3->side_y/2, enemy_3->x+enemy_3->side_x/2, enemy_3->y+enemy_3->side_y/2, al_map_rgb(200, 150, 0));
+                al_draw_bitmap_region (spike_sprite_sheet, 35, 13, 35, 100, enemy_3->x - enemy_3->side_x/2 - 3, enemy_3->y - enemy_3->side_y/2 - 3, -1);
                 al_draw_filled_rectangle(enemy_4->x-enemy_4->side_x/2, enemy_4->y-enemy_4->side_y/2, enemy_4->x+enemy_4->side_x/2, enemy_4->y+enemy_4->side_y/2, al_map_rgb(0, 0, 0));
-                al_draw_filled_rectangle(enemy_5->x-enemy_5->side_x/2, enemy_5->y-enemy_5->side_y/2, enemy_5->x+enemy_5->side_x/2, enemy_5->y+enemy_5->side_y/2, al_map_rgb(0, 255, 255));
-                al_draw_filled_rectangle(ladder_x - ladder_w/2, ladder_y_top, ladder_x + ladder_w/2, ladder_y_bottom, al_map_rgb(150, 75, 0));
+                al_draw_bitmap_region (ball_sprite_sheet, 0, 0, 50, 50, enemy_5->x - enemy_5->side_x/2 - 5, enemy_5->y - enemy_5->side_y/2 - 3, 0);
                 
                 int flip_flag = player_1->flip ? ALLEGRO_FLIP_HORIZONTAL : 0;
                 
@@ -445,7 +519,7 @@ int main(){
                 }
             }
             else if (event.keyboard.keycode == 19) {
-                if (pressed) {
+                if (pressed){
                     player_1->control->down = pressed;
                     sprite_width = 31;
                     current_frame_y = 126;
@@ -461,6 +535,7 @@ int main(){
             }
 
             if (game_over && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && !pressed) {
+                al_stop_samples();
                 break;
             }
         }
