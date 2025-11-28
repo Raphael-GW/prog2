@@ -102,8 +102,8 @@ int main(){
         fprintf(stderr, "failed to create display\n"); al_destroy_event_queue(queue); al_destroy_timer(timer); 
         return 1;
     }
-    ALLEGRO_FONT* font = al_load_ttf_font("P5font.ttf", 24, 0);
-    ALLEGRO_FONT* bigfont = al_load_ttf_font("P5font.ttf", 48, 0);
+    ALLEGRO_FONT* font = al_load_ttf_font("assets/P5font.ttf", 24, 0);
+    ALLEGRO_FONT* bigfont = al_load_ttf_font("assets/P5font.ttf", 48, 0);
     if (!font || !bigfont) {
         fprintf(stderr, "failed to load font(s).\n");
         al_destroy_display(disp);
@@ -112,7 +112,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *fase = al_load_bitmap("stage.png");
+    ALLEGRO_BITMAP *fase = al_load_bitmap("assets/stage.png");
     if (!fase) {
         fprintf(stderr, "failed to load bitmap.\n");
         al_destroy_font(font);
@@ -123,7 +123,7 @@ int main(){
         return 1;
     }
     
-    ALLEGRO_BITMAP *joker_sprite_sheet = al_load_bitmap("joker_sprite.png");
+    ALLEGRO_BITMAP *joker_sprite_sheet = al_load_bitmap("assets/joker_sprite.png");
     if (!joker_sprite_sheet) {
         fprintf(stderr, "failed to load joker sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -135,7 +135,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *frost_sprite_sheet = al_load_bitmap("Jack_frost.png");
+    ALLEGRO_BITMAP *frost_sprite_sheet = al_load_bitmap("assets/Jack_frost.png");
     if (!frost_sprite_sheet) {
         fprintf(stderr, "failed to load frost sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -147,7 +147,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *fence_sprite_sheet = al_load_bitmap("fence.png");
+    ALLEGRO_BITMAP *fence_sprite_sheet = al_load_bitmap("assets/fence.png");
     if (!fence_sprite_sheet) {
         fprintf(stderr, "failed to load frost sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -159,7 +159,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *spike_sprite_sheet = al_load_bitmap("spikes.png");
+    ALLEGRO_BITMAP *spike_sprite_sheet = al_load_bitmap("assets/spikes.png");
     if (!spike_sprite_sheet) {
         fprintf(stderr, "failed to load spikes sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -171,7 +171,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *ball_sprite_sheet = al_load_bitmap("ball.png");
+    ALLEGRO_BITMAP *ball_sprite_sheet = al_load_bitmap("assets/ball.png");
     if (!spike_sprite_sheet) {
         fprintf(stderr, "failed to load ball sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -183,7 +183,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *ladder_sprite_sheet = al_load_bitmap("ladder.png");
+    ALLEGRO_BITMAP *ladder_sprite_sheet = al_load_bitmap("assets/ladder.png");
     if (!spike_sprite_sheet) {
         fprintf(stderr, "failed to load ladder sprite sheet.\n");
         al_destroy_bitmap(fase);
@@ -195,7 +195,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_BITMAP *thwomp_sprite_sheet = al_load_bitmap("thwomp.png");
+    ALLEGRO_BITMAP *thwomp_sprite_sheet = al_load_bitmap("assets/thwomp.png");
     if (!thwomp_sprite_sheet) {
         fprintf(stderr, "failed to load ladder thwwomp sheet.\n");
         al_destroy_bitmap(fase);
@@ -207,7 +207,7 @@ int main(){
         return 1;
     }
 
-    ALLEGRO_SAMPLE* trilha_sonora = al_load_sample ("trilha.wav");
+    ALLEGRO_SAMPLE* trilha_sonora = al_load_sample ("assets/trilha.wav");
     if(!trilha_sonora){
         fprintf(stderr, "failed to load audio sample.\n");
         al_destroy_bitmap(fase);
@@ -247,6 +247,7 @@ int main(){
     int bg_w = al_get_bitmap_width(fase);
     int min_background_x = X_SCREEN - bg_w;
     int win = 0;
+    int pause = 0;
     float enemy5_phase = 0.0f;
     const float enemy5_amp = 50.0f; /* amplitude em pixels (ajuste conforme desejar) */
     const float enemy5_speed = 0.08f; /* velocidade angular (ajuste para mais/menos suavidade) */
@@ -271,22 +272,35 @@ int main(){
     float enemy_frame = 0.f;
     float fence_frame = 0.f;
     
+    int menu_option = 0;
+    int pos_menu_y = 200;
 
     while(1){
         al_wait_for_event(queue, &event);
         while (menu) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            al_draw_text(bigfont, al_map_rgb(255, 255, 255), X_SCREEN / 2, 150, ALLEGRO_ALIGN_CENTRE, "Prog2 - Game");
-            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 250, ALLEGRO_ALIGN_CENTRE, "Pressione ENTER para iniciar");
-            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 350, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
+            al_draw_text(bigfont, al_map_rgb(255, 255, 255), X_SCREEN / 2, 100, ALLEGRO_ALIGN_CENTRE, "Prog2 - Game");
+            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 250, ALLEGRO_ALIGN_CENTRE, "INICIAR JOGO");
+            al_draw_text(font, al_map_rgb(255, 255, 255), X_SCREEN / 2, 350, ALLEGRO_ALIGN_CENTRE, "SAIR");
+            al_draw_rectangle (X_SCREEN/2 - 100, pos_menu_y, X_SCREEN/2 + 100, pos_menu_y + 100, al_map_rgb(255, 0, 0), 3);
             al_flip_display();
 
             al_wait_for_event(queue, &event);
-            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == 19){
+                pos_menu_y = 300;
+                menu_option = 1;
+            }
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == 23){
+                pos_menu_y = 200;
+                menu_option = 0;
+            }
+
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ENTER && menu_option == 0) {
                 menu = 0;
                 al_play_sample(trilha_sonora, 1.0, 0.0,1.0,ALLEGRO_PLAYMODE_LOOP,NULL);
             }
-            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+            if (event.type == ALLEGRO_EVENT_KEY_DOWN && event.keyboard.keycode == ALLEGRO_KEY_ENTER && menu_option == 1) {
                 return 0;
             }
         }
@@ -302,149 +316,152 @@ int main(){
         }
         if (event.type == 30 && !win){
             if (!game_over) {
-                update_position(player_1);
 
-                if (player_1->x >= X_SCREEN - 100) {
-                    win = 1;
-                }
-                
-                
-                
-                /* quando jogador ultrapassa x=400 e ainda há mapa à direita, scrolla e trava x em 400 */
-                if (player_1->x >= 400 && player_1->control->right && background_x > min_background_x) {
-                    background_x -= 7;
-                    enemy->x -= 6;
-                    enemy_2->x -= 7;
-                    enemy_3->x -= 7;
-                    enemy_4->x -= 7;
-                    enemy_5->x -= 7;
-                    enemy_6->x -= 6;
-                    if (background_x < min_background_x) background_x = min_background_x;
-                    player_1->x = 400;
-                }
-                /* quando jogador vai para a esquerda e há mapa à esquerda, scrolla para direita e trava x em 400 */
-                else if (player_1->x <= 400 && player_1->control->left && background_x < 0) {
-                    background_x += 7;
-                    enemy->x += 6;
-                    enemy_2->x += 7;
-                    enemy_3->x += 7;
-                    enemy_4->x += 7;
-                    enemy_5->x += 7;
-                    enemy_6->x += 6;
-                    if (background_x > 0) background_x = 0;
+                if (!pause){
+                    update_position(player_1);
+
+                    if (player_1->x >= X_SCREEN - 100) {
+                        win = 1;
+                    }
                     
-                }
-                
-                al_draw_bitmap(fase, background_x, 0, 0);
-
-                /* Atualiza posição da escada com base em enemy_6 */
-                ladder_x = enemy_6->x + ladder_offset_x;
-                ladder_y_bottom = CHAO_Y;
-                ladder_y_top = ladder_y_bottom - ladder_h;
-
-                /* Verifica se o jogador está "encostado" na escada (colisão AABB) */
-                int px1 = player_1->x - player_1->side_x/2;
-                int py1 = player_1->y - player_1->side_y/2;
-                int px2 = player_1->x + player_1->side_x/2;
-                int py2 = player_1->y + player_1->side_y/2;
-                int lx1 = ladder_x - ladder_w/2;
-                int ly1 = ladder_y_top;
-                int lx2 = ladder_x + ladder_w/2;
-                int ly2 = ladder_y_bottom;
-
-                int touching_ladder = !(px2 < lx1 || px1 > lx2 || py2 < ly1 || py1 > ly2);
-
-                /* Se estiver encostado e W for pressionado, sobe ao invés de pular */
-                if (touching_ladder && w_pressed) {
-                    /* anula o pulo normal */
-                    if (player_1->control) player_1->control->jump = 0;
-                    /* sobe suavemente */
-                    player_1->y -= ladder_climb_speed;
-                    /* não passar do topo da escada */
                     
-                }
+                    
+                    /* quando jogador ultrapassa x=400 e ainda há mapa à direita, scrolla e trava x em 400 */
+                    if (player_1->x >= 400 && player_1->control->right && background_x > min_background_x) {
+                        background_x -= 7;
+                        enemy->x -= 6;
+                        enemy_2->x -= 7;
+                        enemy_3->x -= 7;
+                        enemy_4->x -= 7;
+                        enemy_5->x -= 7;
+                        enemy_6->x -= 6;
+                        if (background_x < min_background_x) background_x = min_background_x;
+                        player_1->x = 400;
+                    }
+                    /* quando jogador vai para a esquerda e há mapa à esquerda, scrolla para direita e trava x em 400 */
+                    else if (player_1->x <= 400 && player_1->control->left && background_x < 0) {
+                        background_x += 7;
+                        enemy->x += 6;
+                        enemy_2->x += 7;
+                        enemy_3->x += 7;
+                        enemy_4->x += 7;
+                        enemy_5->x += 7;
+                        enemy_6->x += 6;
+                        if (background_x > 0) background_x = 0;
+                        
+                    }
+                    
+                    al_draw_bitmap(fase, background_x, 0, 0);
 
-                //atualiza o frame
-                frame += 0.3f;
-                if (frame > max_frame) frame -= max_frame;
+                    /* Atualiza posição da escada com base em enemy_6 */
+                    ladder_x = enemy_6->x + ladder_offset_x;
+                    ladder_y_bottom = CHAO_Y;
+                    ladder_y_top = ladder_y_bottom - ladder_h;
 
-                //atualiza frame inimigo
-                enemy_frame += 0.245f;
-                if (enemy_frame > 7) enemy_frame -= 7;
+                    /* Verifica se o jogador está "encostado" na escada (colisão AABB) */
+                    int px1 = player_1->x - player_1->side_x/2;
+                    int py1 = player_1->y - player_1->side_y/2;
+                    int px2 = player_1->x + player_1->side_x/2;
+                    int py2 = player_1->y + player_1->side_y/2;
+                    int lx1 = ladder_x - ladder_w/2;
+                    int ly1 = ladder_y_top;
+                    int lx2 = ladder_x + ladder_w/2;
+                    int ly2 = ladder_y_bottom;
 
-                //atualiza frame thunder
-                fence_frame += 0.3f;
-                if (fence_frame > 4) fence_frame -= 4;
+                    int touching_ladder = !(px2 < lx1 || px1 > lx2 || py2 < ly1 || py1 > ly2);
 
-                PhysicsEnemy *pe = find_entry(enemy);
-                if (!pe) {
-                    pe = create_entry(enemy, enemy->y);
-                }
+                    /* Se estiver encostado e W for pressionado, sobe ao invés de pular */
+                    if (touching_ladder && w_pressed) {
+                        /* anula o pulo normal */
+                        if (player_1->control) player_1->control->jump = 0;
+                        /* sobe suavemente */
+                        player_1->y -= ladder_climb_speed;
+                        /* não passar do topo da escada */
+                        
+                    }
 
-                if (enemy->x - enemy->side_x/2 <= 0){
-                    enemy->x = aleat (X_SCREEN, 2 * X_SCREEN);
-                }
-                else enemy->x -= ENEMY_SPEED;
+                    //atualiza o frame
+                    frame += 0.3f;
+                    if (frame > max_frame) frame -= max_frame;
 
-                if ((int)enemy_2->x - (int)enemy_2->side_x/2 <= 0){
-                    enemy_2->x = X_SCREEN+520;
-                }
-                
-                if ((int)enemy_3->x - (int)enemy_3->side_x/2 <= 0){
-                    enemy_3->x = aleat (X_SCREEN, 2 * X_SCREEN);
-                }
+                    //atualiza frame inimigo
+                    enemy_frame += 0.245f;
+                    if (enemy_frame > 7) enemy_frame -= 7;
 
-                if ((int)enemy_4->x - (int)enemy_4->side_x/2 <= 0){
-                    enemy_4->x = X_SCREEN+750;
-                }
+                    //atualiza frame thunder
+                    fence_frame += 0.3f;
+                    if (fence_frame > 4) fence_frame -= 4;
 
-                else{
-                    enemy_4->side_x -= 1;
-                    if (enemy_4->side_x < 1){
-                        int hole_cooldown = 60;
-                        while (hole_cooldown > 0){
-                            hole_cooldown--;
+                    PhysicsEnemy *pe = find_entry(enemy);
+                    if (!pe) {
+                        pe = create_entry(enemy, enemy->y);
+                    }
+
+                    if (enemy->x - enemy->side_x/2 <= 0){
+                        enemy->x = aleat (X_SCREEN, 2 * X_SCREEN);
+                    }
+                    else enemy->x -= ENEMY_SPEED;
+
+                    if ((int)enemy_2->x - (int)enemy_2->side_x/2 <= 0){
+                        enemy_2->x = X_SCREEN+520;
+                    }
+                    
+                    if ((int)enemy_3->x - (int)enemy_3->side_x/2 <= 0){
+                        enemy_3->x = aleat (X_SCREEN, 2 * X_SCREEN);
+                    }
+
+                    if ((int)enemy_4->x - (int)enemy_4->side_x/2 <= 0){
+                        enemy_4->x = X_SCREEN+750;
+                    }
+
+                    else{
+                        enemy_4->side_x -= 1;
+                        if (enemy_4->side_x < 1){
+                            int hole_cooldown = 60;
+                            while (hole_cooldown > 0){
+                                hole_cooldown--;
+                            }
+                            enemy_4->side_x = 70;
                         }
-                        enemy_4->side_x = 70;
-                    }
-                }
-
-                if ((int)enemy_5->x - (int)enemy_5->side_x/2 <= 0){
-                    enemy_5->x = aleat (X_SCREEN, 2 * X_SCREEN);
-                }
-
-                enemy5_phase += enemy5_speed;
-                if (enemy5_phase >= 2.0f * 3.14159265f) enemy5_phase -= 2.0f * 3.14159265f;
-                enemy_5->y = enemy5_base_y + (int)(enemy5_amp * sinf(enemy5_phase));
-                
-                if (enemy_6->x - enemy_6->side_x/2 <= 0){
-                    enemy_6->x = aleat (X_SCREEN + 150, 2 * X_SCREEN);
-                }
-                else enemy_6->x -= 2;
-                
-                if (!pe->in_air){
-                    pe->vy = JUMP_VELOCITY_ENM;
-                    pe->in_air = true;
-                }
-
-                if (collision_cooldown > 0) collision_cooldown--;
-
-                if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4) || collision_2D (player_1, enemy_5) || collision_2D (player_1, enemy_6)) && collision_cooldown == 0) {
-                    player_1->vida--;
-                    collision_cooldown = 30;
-
-                    for (int i = 0; i < 3; ++i) {
-                        moveJoker(player_1, 1, 0, X_SCREEN, Y_SCREEN);
                     }
 
-                    if (player_1->vida <= 0) {
-                        player_1->vida = 0;
-                        game_over = 1;
+                    if ((int)enemy_5->x - (int)enemy_5->side_x/2 <= 0){
+                        enemy_5->x = aleat (X_SCREEN, 2 * X_SCREEN);
                     }
-                }
 
-                updateJokerPhysics(player_1);
-                updateEnemyPhysics(enemy);
+                    enemy5_phase += enemy5_speed;
+                    if (enemy5_phase >= 2.0f * 3.14159265f) enemy5_phase -= 2.0f * 3.14159265f;
+                    enemy_5->y = enemy5_base_y + (int)(enemy5_amp * sinf(enemy5_phase));
+                    
+                    if (enemy_6->x - enemy_6->side_x/2 <= 0){
+                        enemy_6->x = aleat (X_SCREEN + 150, 2 * X_SCREEN);
+                    }
+                    else enemy_6->x -= 2;
+                    
+                    if (!pe->in_air){
+                        pe->vy = JUMP_VELOCITY_ENM;
+                        pe->in_air = true;
+                    }
+
+                    if (collision_cooldown > 0) collision_cooldown--;
+
+                    if ((collision_2D(player_1, enemy) || collision_2D(player_1, enemy_2) || collision_2D(player_1, enemy_3) ||  collision_2D(player_1, enemy_4) || collision_2D (player_1, enemy_5) || collision_2D (player_1, enemy_6)) && collision_cooldown == 0) {
+                        player_1->vida--;
+                        collision_cooldown = 30;
+
+                        for (int i = 0; i < 3; ++i) {
+                            moveJoker(player_1, 1, 0, X_SCREEN, Y_SCREEN);
+                        }
+
+                        if (player_1->vida <= 0) {
+                            player_1->vida = 0;
+                            game_over = 1;
+                        }
+                    }
+
+                    updateJokerPhysics(player_1);
+                    updateEnemyPhysics(enemy);
+                }
             }
 
             if (game_over) {
@@ -466,12 +483,24 @@ int main(){
                 
                 al_draw_bitmap_region(joker_sprite_sheet, sprite_width * (int)frame, current_frame_y, sprite_width, SPRITE_HEIGHT, 
                                       player_1->x - player_1->side_x/2, player_1->y - player_1->side_y/2, flip_flag);
+                
+                /* se estiver em pausa, desenha overlay de pausa */
+                if (pause) {
+                    al_draw_filled_rectangle(X_SCREEN/2 - 100, Y_SCREEN/2 - 50, X_SCREEN/2 + 100, Y_SCREEN/2 + 50, al_map_rgba(0,0,0,180));
+                    al_draw_text(bigfont, al_map_rgb(255,255,0), X_SCREEN / 2, Y_SCREEN / 2 - 12, ALLEGRO_ALIGN_CENTRE, "PAUSE");
+                }
             }
 
             al_flip_display();
         }
         else if ((event.type == 10) || (event.type == 12)){
             int pressed = (event.type == 10);
+
+            /* tecla ESC alterna pausa (pressionamento) */
+            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE && pressed) {
+                /* se estiver em tela de menu ou vitória, keep behavior original */
+                if (!menu && !win) pause = !pause;
+            }
 
             /* tecla W para subir escada (mantém estado enquanto pressionada) */
             if (event.keyboard.keycode == ALLEGRO_KEY_W) {
